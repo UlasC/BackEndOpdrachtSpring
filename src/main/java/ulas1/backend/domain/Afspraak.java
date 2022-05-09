@@ -20,6 +20,10 @@ public class Afspraak {
     @Id
     private int jaar;
 
+
+
+    private String soortAfspraak;
+
     @Id
     @ManyToOne // een op veel relatie
     private Klant klant;
@@ -28,12 +32,23 @@ public class Afspraak {
 
     }
 
-    public Afspraak(String tijd, int dag, int maand, int jaar, Klant klant) {
+
+
+    public Afspraak(String tijd, int dag, int maand, int jaar, String soortAfspraak, Klant klant) {
         this.tijd = tijd;
         this.dag = dag;
         this.maand = maand;
         this.jaar = jaar;
+        this.soortAfspraak = soortAfspraak;
         this.klant =  klant;
+    }
+
+    public String getSoortAfspraak() {
+        return soortAfspraak;
+    }
+
+    public void setSoortAfspraak(String soortAfspraak) {
+        this.soortAfspraak = soortAfspraak;
     }
 
     public String getTijd() {

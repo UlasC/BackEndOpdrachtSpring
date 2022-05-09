@@ -8,6 +8,7 @@ public class CreateAfspraakDto {
     private int maand;
     private int jaar;
     private int bsn;
+    private String soortAfspraak;
 
     public int getBsn() {
         return bsn;
@@ -17,6 +18,13 @@ public class CreateAfspraakDto {
         this.bsn = bsn;
     }
 
+    public String getSoortAfspraak() {
+        return soortAfspraak;
+    }
+
+    public void setSoortAfspraak(String soortAfspraak) {
+        this.soortAfspraak = soortAfspraak;
+    }
 
     public String getTijd() {
         return tijd;

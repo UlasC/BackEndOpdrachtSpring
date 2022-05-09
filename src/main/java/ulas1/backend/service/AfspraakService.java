@@ -31,6 +31,7 @@ public class AfspraakService {
         afspraak.setMaand(createAfspraakDto.getMaand());
         afspraak.setJaar(createAfspraakDto.getJaar());
         afspraak.setTijd(createAfspraakDto.getTijd());
+        afspraak.setSoortAfspraak(createAfspraakDto.getSoortAfspraak());
 
         Optional <Klant> klant = klantService.getKlantByBsn(createAfspraakDto.getBsn());
         if(klant.isEmpty()){
