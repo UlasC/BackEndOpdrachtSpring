@@ -1,16 +1,24 @@
 package ulas1.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Handeling {
 
-    // -	Handelingen vaste handelingen: handelingnummer, omschrijving, prijs
     @Id
     private int handelingsnummer;
     private double prijs;
     private String handeling;
+
+
+    @ManyToMany(mappedBy = "handelingen")
+    @JsonIgnore
+    private List<Mankement> mankementen;
 
 
     public Handeling(){
@@ -20,6 +28,14 @@ public class Handeling {
         this.handelingsnummer = handelingsnummer;
         this.prijs = prijs;
         this.handeling = handeling;
+    }
+
+    public List<Mankement> getMankementen() {
+        return mankementen;
+    }
+
+    public void setMankementen(List<Mankement> mankementen) {
+        this.mankementen = mankementen;
     }
 
     public int getHandelingsnummer() {

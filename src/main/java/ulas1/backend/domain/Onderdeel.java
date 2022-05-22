@@ -1,7 +1,12 @@
 package ulas1.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 public class Onderdeel {
@@ -13,6 +18,10 @@ public class Onderdeel {
     private int voorraad;
 
 
+    @ManyToMany(mappedBy = "onderdelen")
+    @JsonIgnore
+    private List<Mankement> mankementen;
+
     public Onderdeel(){
     }
 
@@ -21,6 +30,14 @@ public class Onderdeel {
         this.prijs = prijs;
         this.name = name;
         this.voorraad = voorraad;
+    }
+
+    public List<Mankement> getMankementen() {
+        return mankementen;
+    }
+
+    public void setMankementen(List<Mankement> mankementen) {
+        this.mankementen = mankementen;
     }
 
     public int getArtikelnummer() {
