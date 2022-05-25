@@ -8,12 +8,13 @@ import java.util.List;
 
 @Entity
 public class Mankement {
-    //-	Mankementen: reparatiestatus, betalingstatus, kentekennummer,  artikelnummer, handelingnummer
 
     private String betalingstatus;
-    private String reparatiestatus;
+    private String reparatieFase;// akkoord of geen akkoord
     @Id
     private int mankementId;
+
+    
 
     @ManyToMany
     private List<Onderdeel> onderdelen;
@@ -26,9 +27,9 @@ public class Mankement {
 
     }
 
-    public Mankement(String betalingstatus, String reparatiestatus, List<Onderdeel> onderdelen, List<Handeling> handelingen, Auto auto, int mankementId) {
+    public Mankement(String betalingstatus, String reparatieFase, List<Onderdeel> onderdelen, List<Handeling> handelingen, Auto auto, int mankementId) {
         this.betalingstatus = betalingstatus;
-        this.reparatiestatus = reparatiestatus;
+        this.reparatieFase = reparatieFase;
         this.onderdelen = onderdelen;
         this.handelingen = handelingen;
         this.auto = auto;
@@ -51,12 +52,12 @@ public class Mankement {
         this.betalingstatus = betalingstatus;
     }
 
-    public String getReparatiestatus() {
-        return reparatiestatus;
+    public String getReparatieFase() {
+        return reparatieFase;
     }
 
-    public void setReparatiestatus(String reparatiestatus) {
-        this.reparatiestatus = reparatiestatus;
+    public void setReparatieFase(String reparatieFase) {
+        this.reparatieFase = reparatieFase;
     }
 
     public List<Onderdeel> getOnderdelen() {

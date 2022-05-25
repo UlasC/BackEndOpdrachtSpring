@@ -40,11 +40,8 @@ public class MankementController {
 
         @GetMapping("{mankementId}")
         public ResponseEntity<Mankement> getMankement(@PathVariable int mankementId) {
-            Optional<Mankement> mankement = mankementService.getMankementByMankementId(mankementId);
-            if (mankement.isEmpty()) {
-                throw new MankementNotFoundException(mankementId);
-            }
-            return ResponseEntity.ok(mankement.get());
+            Mankement mankement = mankementService.getMankementByMankementId(mankementId);
+            return ResponseEntity.ok(mankement);
         }
 
         @GetMapping("auto/{kenteken}")
@@ -54,6 +51,12 @@ public class MankementController {
                 throw new AutoHasNoMankementenException(kenteken);
             }
             return ResponseEntity.ok(mankement.get());
+        }
+
+        @GetMapping("bon/{mankementId}")
+        public ResponseEntity<String> getBon(@PathVariable int mankementId){
+            String bon = mankementService.getBon(mankementId);
+            return ResponseEntity.ok(bon);
         }
     }
 

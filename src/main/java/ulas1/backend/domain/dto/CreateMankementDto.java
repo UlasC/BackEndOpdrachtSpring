@@ -6,7 +6,7 @@ import java.util.List;
 public class CreateMankementDto {
 
     private String betalingstatus;
-    private String reparatiestatus;
+    private String reparatieFase;
     private int mankementId;
 
     private List <Integer> handelingsnummers;
@@ -21,12 +21,12 @@ public class CreateMankementDto {
         this.betalingstatus = betalingstatus;
     }
 
-    public String getReparatiestatus() {
-        return reparatiestatus;
+    public String getReparatieFase() {
+        return reparatieFase;
     }
 
-    public void setReparatiestatus(String reparatiestatus) {
-        this.reparatiestatus = reparatiestatus;
+    public void setReparatieFase(String reparatieFase) {
+        this.reparatieFase = reparatieFase;
     }
 
     public int getMankementId() {
