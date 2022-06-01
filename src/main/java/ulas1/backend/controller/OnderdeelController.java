@@ -47,7 +47,7 @@ public class OnderdeelController {
         return ResponseEntity.ok(onderdeel.get());
     }
     //@PostMapping("{artikelnummer}")
-    @RequestMapping(value = "{artikelnummer}", produces = "application/json",  method=RequestMethod.PUT)
+    @RequestMapping(value = "{artikelnummer}/voorraad", produces = "application/json",  method=RequestMethod.PUT)
     public ResponseEntity<Onderdeel> updateVoorraad(@PathVariable int artikelnummer, @Valid @RequestBody UpdateVoorraadDto updateVoorraadDto){
         Optional<Onderdeel> onderdeel = onderdeelService.updateVoorraad(artikelnummer, updateVoorraadDto);
         if(onderdeel.isEmpty()){

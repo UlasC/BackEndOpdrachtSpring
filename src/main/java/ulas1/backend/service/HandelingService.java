@@ -2,8 +2,8 @@ package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.Handeling;
-import ulas1.backend.domain.dto.UpdateVoorraadDto;
+import ulas1.backend.domain.BestaandeHandeling;
+import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.repository.HandelingRepository;
 
 import java.util.Optional;
@@ -17,13 +17,17 @@ import java.util.Optional;
             this.handelingRepository = handelingRepository;
         }
 
-        public Handeling addHandeling(Handeling handeling){
+        public BestaandeHandeling addHandeling(CreateHandelingDto createHandelingDto){
+            BestaandeHandeling handeling = new BestaandeHandeling();
+            handeling.setHandeling(createHandelingDto.getHandeling());
+            handeling.setPrijs(createHandelingDto.getPrijs());
+
             handelingRepository.save(handeling);
             return handeling;
         }
 
-        public Optional<Handeling> getHandelingByHandelingsnummer(Integer handelingsnummer) {
-            Optional<Handeling> handeling = handelingRepository.findById(handelingsnummer);
+        public Optional<BestaandeHandeling> getHandelingByHandelingsnummer(Integer handelingsnummer) {
+            Optional<BestaandeHandeling> handeling = handelingRepository.findById(handelingsnummer);
             return handeling;
         }
 }

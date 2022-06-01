@@ -3,6 +3,7 @@ package ulas1.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ulas1.backend.domain.*;
+import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.domain.dto.CreateMankementDto;
 import ulas1.backend.exception.AutoNotFoundException;
 import ulas1.backend.exception.HandelingNotFoundException;
@@ -20,14 +21,16 @@ public class MankementService {
         private MankementRepository mankementRepository;
         private AutoService autoService;
         private HandelingService handelingService;
+        private OverigeHandelingService overigeHandelingService;
         private OnderdeelService onderdeelService;
         private double btwPercentage = 21.0;
 
         @Autowired
-        public MankementService(MankementRepository mankementRepository, AutoService autoService, HandelingService handelingService, OnderdeelService onderdeelService) {
+        public MankementService(MankementRepository mankementRepository, AutoService autoService, HandelingService handelingService, OverigeHandelingService overigeHandelingService, OnderdeelService onderdeelService) {
             this.mankementRepository = mankementRepository;
             this.autoService = autoService;
             this.handelingService = handelingService;
+            this.overigeHandelingService = overigeHandelingService;
             this.onderdeelService = onderdeelService;
             
         }
@@ -37,7 +40,6 @@ public class MankementService {
             mankement.setMankementId(createMankementDto.getMankementId());
             mankement.setBetalingstatus(createMankementDto.getBetalingstatus());
             mankement.setReparatieFase(createMankementDto.getReparatieFase());
-            
 
             Optional<Auto> auto = autoService.getAutoByKenteken(createMankementDto.getKenteken());
             if(auto.isEmpty()){
@@ -45,29 +47,57 @@ public class MankementService {
             }
             mankement.setAuto(auto.get());
 
-            List<Onderdeel> onderdelen = new ArrayList<>();
-            for(Integer onderdeelnummer : createMankementDto.getOnderdeelnummers()) {
-                Optional<Onderdeel> onderdeel =  onderdeelService.getOnderdeelByArtikelnummer(onderdeelnummer);
-                if(onderdeel.isEmpty()) {
-                    throw new OnderdeelNotFoundException(onderdeelnummer);
-                }
-                onderdelen.add(onderdeel.get());
-            }
-            mankement.setOnderdelen(onderdelen);
-
-            List<Handeling> handelingen = new ArrayList<>();
-            for(Integer handelingsnummer : createMankementDto.getHandelingsnummers()) {
-                Optional<Handeling> handeling =  handelingService.getHandelingByHandelingsnummer(handelingsnummer);
-                if(handeling.isEmpty()) {
-                    throw new HandelingNotFoundException(handelingsnummer);
-                }
-                handelingen.add(handeling.get());
-            }
-            mankement.setHandelingen(handelingen);
+            mankement.setOnderdelen(new ArrayList<>());
+            mankement.setBestaandeHandelingen(new ArrayList<>());
+            mankement.setOverigeHandelingen(new ArrayList<>());
 
             mankementRepository.save(mankement);
             return mankement;
         }
+
+        public Mankement addOnderdeelToMankement(int mankementId, int onderdeelId){
+            Mankement mankement = getMankementByMankementId(mankementId);
+            Optional<Onderdeel> onderdeel = onderdeelService.getOnderdeelByArtikelnummer(onderdeelId);
+            if(onderdeel.isEmpty()){
+                throw new OnderdeelNotFoundException(onderdeelId);
+            }
+
+            List<Onderdeel> onderdelen = mankement.getOnderdelen();
+            onderdelen.add(onderdeel.get());
+            mankement.setOnderdelen(onderdelen);
+
+            mankementRepository.save(mankement);
+            return mankement;
+        }
+
+        public Mankement addBestaandeHandelingToMankement(int mankementId, int handelingId){
+            Mankement mankement = getMankementByMankementId(mankementId);
+            Optional<BestaandeHandeling> handeling = handelingService.getHandelingByHandelingsnummer(handelingId);
+            if(handeling.isEmpty()){
+                throw new HandelingNotFoundException(handelingId);
+            }
+
+            List<BestaandeHandeling> handelingen = mankement.getBestaandeHandelingen();
+            handelingen.add(handeling.get());
+            mankement.setBestaandeHandelingen(handelingen);
+
+            mankementRepository.save(mankement);
+            return mankement;
+        }
+
+        public Mankement addOverigeHandelingToMankement(int mankementId, CreateHandelingDto createHandelingDto){
+            Mankement mankement = getMankementByMankementId(mankementId);
+
+            OverigeHandeling overigeHandeling = overigeHandelingService.addOverigeHandeling(createHandelingDto);
+
+            List<OverigeHandeling> handelingen = mankement.getOverigeHandelingen();
+            handelingen.add(overigeHandeling);
+            mankement.setOverigeHandelingen(handelingen);
+
+            mankementRepository.save(mankement);
+            return mankement;
+        }
+
         public Mankement getMankementByMankementId(int mankementId) {
             Optional<Mankement> mankement = mankementRepository.findById(mankementId);
             if(mankement.isEmpty()){
@@ -105,11 +135,16 @@ public class MankementService {
     }
 
     public double addHandelingenAndPrijsToBon(StringBuilder bon, Mankement mankement){
-            List<Handeling> handelingen = mankement.getHandelingen();
+            List<BestaandeHandeling> bestaandehandelingen = mankement.getBestaandeHandelingen();
+            List<OverigeHandeling> overigehandelingen = mankement.getOverigeHandelingen();
             double kosten = 0.0;
 
             bon.append("Handelingen:\n");
-            for(Handeling handeling : handelingen){
+            for(BestaandeHandeling handeling : bestaandehandelingen){
+                kosten += handeling.getPrijs();
+                bon.append(handeling.getHandeling()).append(" €").append(formatPrijs(handeling.getPrijs())).append("\n");
+            }
+            for(OverigeHandeling handeling : overigehandelingen){
                 kosten += handeling.getPrijs();
                 bon.append(handeling.getHandeling()).append(" €").append(formatPrijs(handeling.getPrijs())).append("\n");
             }

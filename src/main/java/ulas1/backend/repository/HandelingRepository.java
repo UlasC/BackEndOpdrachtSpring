@@ -1,9 +1,8 @@
 package ulas1.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ulas1.backend.domain.Handeling;
+import ulas1.backend.domain.BestaandeHandeling;
 
-
-public interface HandelingRepository extends JpaRepository<Handeling, Integer> {
+public interface HandelingRepository extends JpaRepository<BestaandeHandeling, Integer> {
 
 }

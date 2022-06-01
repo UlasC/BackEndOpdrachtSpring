@@ -9,9 +9,10 @@ public class CreateMankementDto {
     private String reparatieFase;
     private int mankementId;
 
-    private List <Integer> handelingsnummers;
-    private List<Integer> onderdeelnummers;
+//    private List <Integer> handelingsnummers;
+//    private List<Integer> onderdeelnummers;
     private String kenteken;
+
 
     public String getBetalingstatus() {
         return betalingstatus;
@@ -37,21 +38,21 @@ public class CreateMankementDto {
         this.mankementId = mankementId;
     }
 
-    public List<Integer> getHandelingsnummers() {
-        return handelingsnummers;
-    }
-
-    public void setHandelingsnummers(List<Integer> handelingsnummers) {
-        this.handelingsnummers = handelingsnummers;
-    }
-
-    public List<Integer> getOnderdeelnummers() {
-        return onderdeelnummers;
-    }
-
-    public void setOnderdeelnummers(List<Integer> onderdeelnummers) {
-        this.onderdeelnummers = onderdeelnummers;
-    }
+//    public List<Integer> getHandelingsnummers() {
+//        return handelingsnummers;
+//    }
+//
+//    public void setHandelingsnummers(List<Integer> handelingsnummers) {
+//        this.handelingsnummers = handelingsnummers;
+//    }
+//
+//    public List<Integer> getOnderdeelnummers() {
+//        return onderdeelnummers;
+//    }
+//
+//    public void setOnderdeelnummers(List<Integer> onderdeelnummers) {
+//        this.onderdeelnummers = onderdeelnummers;
+//    }
 
     public String getKenteken() {
         return kenteken;

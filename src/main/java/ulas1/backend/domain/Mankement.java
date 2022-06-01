@@ -14,12 +14,12 @@ public class Mankement {
     @Id
     private int mankementId;
 
-    
-
     @ManyToMany
     private List<Onderdeel> onderdelen;
     @ManyToMany
-    private List<Handeling> handelingen;
+    private List<BestaandeHandeling> handelingen;
+    @ManyToMany
+    private List<OverigeHandeling> overigeHandelingen;
     @ManyToOne
     private Auto auto;
 
@@ -27,11 +27,12 @@ public class Mankement {
 
     }
 
-    public Mankement(String betalingstatus, String reparatieFase, List<Onderdeel> onderdelen, List<Handeling> handelingen, Auto auto, int mankementId) {
+    public Mankement(String betalingstatus, String reparatieFase, List<Onderdeel> onderdelen, List<BestaandeHandeling> handelingen, List<OverigeHandeling> overigeHandelingen, Auto auto, int mankementId) {
         this.betalingstatus = betalingstatus;
         this.reparatieFase = reparatieFase;
         this.onderdelen = onderdelen;
         this.handelingen = handelingen;
+        this.overigeHandelingen = overigeHandelingen;
         this.auto = auto;
         this.mankementId = mankementId;
     }
@@ -68,12 +69,20 @@ public class Mankement {
         this.onderdelen = onderdelen;
     }
 
-    public List<Handeling> getHandelingen() {
+    public List<BestaandeHandeling> getBestaandeHandelingen() {
         return handelingen;
     }
 
-    public void setHandelingen(List<Handeling> handelingen) {
+    public void setBestaandeHandelingen(List<BestaandeHandeling> handelingen) {
         this.handelingen = handelingen;
+    }
+
+    public List<OverigeHandeling> getOverigeHandelingen() {
+        return overigeHandelingen;
+    }
+
+    public void setOverigeHandelingen(List<OverigeHandeling> overigeHandelingen) {
+        this.overigeHandelingen = overigeHandelingen;
     }
 
     public Auto getAuto() {

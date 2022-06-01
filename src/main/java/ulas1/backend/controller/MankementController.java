@@ -3,7 +3,9 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ulas1.backend.domain.BestaandeHandeling;
 import ulas1.backend.domain.Mankement;
+import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.domain.dto.CreateMankementDto;
 import ulas1.backend.exception.AutoHasNoMankementenException;
 import ulas1.backend.exception.MankementNotFoundException;
@@ -25,9 +27,7 @@ public class MankementController {
 
         }
 
-
         private MankementService mankementService;
-
 
         @PostMapping
         public ResponseEntity<Mankement> createMankement(@RequestBody CreateMankementDto createMankementDto) {
@@ -36,6 +36,24 @@ public class MankementController {
             final URI location = URI.create("/mankementen/" + mankement.getMankementId());
 
             return ResponseEntity.created(location).body(mankement);
+        }
+
+        @PutMapping("{mankementId}/onderdeel")
+        public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody int onderdeelId){
+            Mankement mankement = mankementService.addOnderdeelToMankement(mankementId, onderdeelId);
+            return ResponseEntity.ok(mankement);
+        }
+
+        @PutMapping("{mankementId}/handeling")
+        public ResponseEntity<Mankement> addBestaandeHandelingtoMankement(@PathVariable int mankementId, @RequestBody int handelingsnummer){
+            Mankement mankement = mankementService.addBestaandeHandelingToMankement(mankementId, handelingsnummer);
+            return ResponseEntity.ok(mankement);
+        }
+
+        @PutMapping("{mankementId}/overigehandeling")
+        public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody CreateHandelingDto createHandelingDto){
+            Mankement mankement = mankementService.addOverigeHandelingToMankement(mankementId, createHandelingDto);
+            return ResponseEntity.ok(mankement);
         }
 
         @GetMapping("{mankementId}")

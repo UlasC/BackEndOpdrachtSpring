@@ -2,40 +2,29 @@ package ulas1.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Handeling {
+public class OverigeHandeling {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int handelingsnummer;
     private double prijs;
     private String handeling;
 
-
-    @ManyToMany(mappedBy = "handelingen")
+    @ManyToMany(mappedBy = "overigeHandelingen")
     @JsonIgnore
     private List<Mankement> mankementen;
 
-
-    public Handeling(){
+    public OverigeHandeling(){
     }
 
-    public Handeling(int handelingsnummer, double prijs, String handeling) {
+    public OverigeHandeling(int handelingsnummer, double prijs, String handeling) {
         this.handelingsnummer = handelingsnummer;
         this.prijs = prijs;
         this.handeling = handeling;
-    }
-
-    public List<Mankement> getMankementen() {
-        return mankementen;
-    }
-
-    public void setMankementen(List<Mankement> mankementen) {
-        this.mankementen = mankementen;
     }
 
     public int getHandelingsnummer() {
@@ -60,5 +49,13 @@ public class Handeling {
 
     public void setHandeling(String handeling) {
         this.handeling = handeling;
+    }
+
+    public List<Mankement> getMankementen() {
+        return mankementen;
+    }
+
+    public void setMankementen(List<Mankement> mankementen) {
+        this.mankementen = mankementen;
     }
 }
