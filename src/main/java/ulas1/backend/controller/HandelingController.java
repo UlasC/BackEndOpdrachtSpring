@@ -3,13 +3,11 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.BestaandeHandeling;
+import ulas1.backend.domain.entity.BestaandeHandeling;
 import ulas1.backend.domain.dto.CreateHandelingDto;
-import ulas1.backend.exception.HandelingNotFoundException;
 import ulas1.backend.service.HandelingService;
 
 import java.net.URI;
-import java.util.Optional;
 
 
 @RestController // Dit is de controller: spring object

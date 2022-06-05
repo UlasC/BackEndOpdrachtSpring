@@ -3,7 +3,7 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.Klant;
+import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.service.KlantService;
 

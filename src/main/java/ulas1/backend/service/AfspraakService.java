@@ -1,14 +1,16 @@
 package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.Afspraak;
-import ulas1.backend.domain.Klant;
+import ulas1.backend.domain.entity.Afspraak;
+import ulas1.backend.domain.entity.Medewerker;
+import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
+import ulas1.backend.domain.entity.Medewerker;
+import ulas1.backend.exception.KlantHeeftAlAfspraakException;
 import ulas1.backend.exception.KlantNotFoundException;
+import ulas1.backend.exception.MedewerkerHeeftAlAfspraakException;
 import ulas1.backend.repository.AfspraakRepository;
-import ulas1.backend.repository.KlantRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +20,13 @@ public class AfspraakService {
 
     private AfspraakRepository afspraakRepository;
     private KlantService klantService;
+    private MedewerkerService medewerkerService;
 
     @Autowired
-    public AfspraakService(AfspraakRepository afspraakRepository, KlantService klantService) {
+    public AfspraakService(AfspraakRepository afspraakRepository, KlantService klantService, MedewerkerService medewerkerService) {
         this.afspraakRepository = afspraakRepository;
         this.klantService = klantService;
+        this.medewerkerService = medewerkerService;
     }
 
     public Afspraak createAfspraak(CreateAfspraakDto createAfspraakDto){
@@ -39,6 +43,17 @@ public class AfspraakService {
         }
         Klant persoon = klant.get();
         afspraak.setKlant(persoon);
+
+        Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(createAfspraakDto.getGebruikersnaam());
+        afspraak.setMedewerker(medewerker);
+        
+        if(hasAfspraak(persoon,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
+            throw new KlantHeeftAlAfspraakException(persoon.getFirstName(), persoon.getLastName());
+        }
+        if(hasAfspraak(medewerker,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
+            throw new MedewerkerHeeftAlAfspraakException(medewerker.getGebruikersnaam());
+        }
+        
         afspraakRepository.save(afspraak);
         return afspraak;
     }
@@ -50,5 +65,35 @@ public class AfspraakService {
         }
         Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByKlant(klant.get());
         return afspraken;
+    }
+
+    public Optional<List<Afspraak>> getAfspraken(String gebruikersnaam){
+        Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(gebruikersnaam);
+        Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByMedewerker(medewerker);
+        return afspraken;
+    }
+
+    public boolean hasAfspraak(Klant klant, String tijd, int dag, int maand, int jaar){
+        Optional<List<Afspraak>> afspraken = getAfspraken(klant.getBsn());
+        if(afspraken.isPresent()){
+            for(Afspraak afspraak: afspraken.get()){
+                if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean hasAfspraak(Medewerker medewerker, String tijd, int dag, int maand, int jaar){
+        Optional<List<Afspraak>> afspraken = getAfspraken(medewerker.getGebruikersnaam());
+        if(afspraken.isPresent()){
+            for(Afspraak afspraak: afspraken.get()){
+                if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

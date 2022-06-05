@@ -1,4 +1,4 @@
-package ulas1.backend.domain;
+package ulas1.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class OverigeHandeling {
+public class BestaandeHandeling {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +14,14 @@ public class OverigeHandeling {
     private double prijs;
     private String handeling;
 
-    @ManyToMany(mappedBy = "overigeHandelingen")
+    @ManyToMany(mappedBy = "handelingen")
     @JsonIgnore
     private List<Mankement> mankementen;
 
-    public OverigeHandeling(){
+    public BestaandeHandeling(){
     }
 
-    public OverigeHandeling(int handelingsnummer, double prijs, String handeling) {
+    public BestaandeHandeling(int handelingsnummer, double prijs, String handeling) {
         this.handelingsnummer = handelingsnummer;
         this.prijs = prijs;
         this.handeling = handeling;

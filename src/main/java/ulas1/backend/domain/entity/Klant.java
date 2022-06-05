@@ -1,4 +1,7 @@
-package ulas1.backend.domain;
+package ulas1.backend.domain.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ulas1.backend.domain.entity.Afspraak;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +17,8 @@ public class Klant {
     @Id
     private int bsn;
 
-    @OneToMany
+    @OneToMany(mappedBy = "klant")
+    @JsonIgnore
     private List<Afspraak> afspraken;
 
     public Klant(){

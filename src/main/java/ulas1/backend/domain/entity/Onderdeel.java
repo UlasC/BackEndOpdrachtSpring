@@ -1,11 +1,11 @@
-package ulas1.backend.domain;
+package ulas1.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ulas1.backend.domain.entity.Mankement;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Entity

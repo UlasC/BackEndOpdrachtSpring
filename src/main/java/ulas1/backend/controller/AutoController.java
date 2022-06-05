@@ -1,23 +1,15 @@
 package ulas1.backend.controller;
 
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.Afspraak;
-import ulas1.backend.domain.Auto;
-import ulas1.backend.domain.Klant;
-import ulas1.backend.domain.dto.CreateAfspraakDto;
+import ulas1.backend.domain.entity.Auto;
 import ulas1.backend.domain.dto.CreateAutoDto;
 import ulas1.backend.exception.AutoNotFoundException;
 import ulas1.backend.exception.KlantHasNoCarException;
-import ulas1.backend.exception.KlantNotFoundException;
-import ulas1.backend.service.AfspraakService;
-import ulas1.backend.service.KlantService;
 import ulas1.backend.service.AutoService;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 

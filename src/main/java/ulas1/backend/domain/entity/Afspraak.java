@@ -1,4 +1,4 @@
-package ulas1.backend.domain;
+package ulas1.backend.domain.entity;
 
 import ulas1.backend.idClass.AfspraakId;
 
@@ -27,6 +27,9 @@ public class Afspraak {
     @Id
     @ManyToOne // een op veel relatie
     private Klant klant;
+    
+    @ManyToOne
+    private Medewerker medewerker;
 
     public Afspraak(){
 
@@ -34,13 +37,14 @@ public class Afspraak {
 
 
 
-    public Afspraak(String tijd, int dag, int maand, int jaar, String soortAfspraak, Klant klant) {
+    public Afspraak(String tijd, int dag, int maand, int jaar, String soortAfspraak, Klant klant, Medewerker medewerker) {
         this.tijd = tijd;
         this.dag = dag;
         this.maand = maand;
         this.jaar = jaar;
         this.soortAfspraak = soortAfspraak;
         this.klant =  klant;
+        this.medewerker = medewerker;
     }
 
     public String getSoortAfspraak() {
@@ -89,5 +93,13 @@ public class Afspraak {
 
     public void setKlant(Klant klant) {
         this.klant = klant;
+    }
+
+    public Medewerker getMedewerker() {
+        return medewerker;
+    }
+
+    public void setMedewerker(Medewerker medewerker) {
+        this.medewerker = medewerker;
     }
 }

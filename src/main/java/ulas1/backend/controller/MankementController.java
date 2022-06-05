@@ -3,13 +3,10 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.BestaandeHandeling;
-import ulas1.backend.domain.Mankement;
+import ulas1.backend.domain.entity.Mankement;
 import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.domain.dto.CreateMankementDto;
 import ulas1.backend.exception.AutoHasNoMankementenException;
-import ulas1.backend.exception.MankementNotFoundException;
-import ulas1.backend.exception.KlantHasNoCarException;
 import ulas1.backend.service.MankementService;
 
 import java.net.URI;
@@ -38,22 +35,34 @@ public class MankementController {
             return ResponseEntity.created(location).body(mankement);
         }
 
-        @PutMapping("{mankementId}/onderdeel")
+        @PostMapping("{mankementId}/onderdeel")
         public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody int onderdeelId){
             Mankement mankement = mankementService.addOnderdeelToMankement(mankementId, onderdeelId);
             return ResponseEntity.ok(mankement);
         }
 
-        @PutMapping("{mankementId}/handeling")
+        @PostMapping("{mankementId}/handeling")
         public ResponseEntity<Mankement> addBestaandeHandelingtoMankement(@PathVariable int mankementId, @RequestBody int handelingsnummer){
             Mankement mankement = mankementService.addBestaandeHandelingToMankement(mankementId, handelingsnummer);
             return ResponseEntity.ok(mankement);
         }
 
-        @PutMapping("{mankementId}/overigehandeling")
+        @PostMapping("{mankementId}/overigehandeling")
         public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody CreateHandelingDto createHandelingDto){
             Mankement mankement = mankementService.addOverigeHandelingToMankement(mankementId, createHandelingDto);
             return ResponseEntity.ok(mankement);
+        }
+
+        @DeleteMapping("{mankementId}/overigehandeling")
+        public ResponseEntity<Mankement> deleteOverigeHandelingen(@PathVariable int mankementId){
+            Mankement mankement = mankementService.deleteOverigeHandelingen(mankementId);
+            return ResponseEntity.ok(mankement);
+        }
+
+        @DeleteMapping("{mankementId}")
+        public ResponseEntity<Mankement> deleteMankement(@PathVariable int mankementId){
+            mankementService.deleteMankement(mankementId);
+            return ResponseEntity.noContent().build();
         }
 
         @GetMapping("{mankementId}")
@@ -71,7 +80,7 @@ public class MankementController {
             return ResponseEntity.ok(mankement.get());
         }
 
-        @GetMapping("bon/{mankementId}")
+        @GetMapping("{mankementId}/bon")
         public ResponseEntity<String> getBon(@PathVariable int mankementId){
             String bon = mankementService.getBon(mankementId);
             return ResponseEntity.ok(bon);

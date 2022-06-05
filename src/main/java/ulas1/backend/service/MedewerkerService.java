@@ -1,0 +1,61 @@
+package ulas1.backend.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ulas1.backend.domain.dto.MedewerkerCreatedDto;
+import ulas1.backend.domain.entity.Medewerker;
+import ulas1.backend.exception.MedewerkerNotFoundException;
+import ulas1.backend.repository.MedewerkerRepository;
+
+import java.util.Optional;
+
+@Service
+public class MedewerkerService {
+    private MedewerkerRepository medewerkerRepository;
+
+    @Autowired
+    public MedewerkerService(MedewerkerRepository medewerkerRepository){
+        this.medewerkerRepository = medewerkerRepository;
+    }
+
+    public MedewerkerCreatedDto addMedewerker(Medewerker medewerker){
+        medewerkerRepository.save(medewerker);
+        MedewerkerCreatedDto medewerkerCreatedDto = getDTOfromMedewerker(medewerker);
+        return medewerkerCreatedDto;
+    }
+
+    public Medewerker getMedewerkerByGebruikersnaam(String gebruikersnaam){
+        Optional<Medewerker> medewerker = medewerkerRepository.findById(gebruikersnaam);
+        if(medewerker.isEmpty()){
+            throw new MedewerkerNotFoundException(gebruikersnaam);
+        }
+        return medewerker.get();
+    }
+
+    public void updateWachtwoord(String gebruikersnaam, String wachtwoord){
+        Medewerker medewerker = getMedewerkerByGebruikersnaam(gebruikersnaam);
+        medewerker.setWachtwoord(wachtwoord);
+        medewerkerRepository.save(medewerker);
+    }
+
+    public MedewerkerCreatedDto updateRole(String gebruikersnaam, String role){
+        Medewerker medewerker = getMedewerkerByGebruikersnaam(gebruikersnaam);
+        medewerker.setRole(role);
+        medewerkerRepository.save(medewerker);
+        MedewerkerCreatedDto medewerkerCreatedDto = getDTOfromMedewerker(medewerker);
+        return medewerkerCreatedDto;
+    }
+
+    public void deleteMedewerker(String gebruikersnaam){
+        Medewerker medewerker = getMedewerkerByGebruikersnaam(gebruikersnaam);
+        medewerkerRepository.delete(medewerker);
+    }
+
+    public MedewerkerCreatedDto getDTOfromMedewerker(Medewerker medewerker){
+        MedewerkerCreatedDto medewerkerCreatedDto = new MedewerkerCreatedDto();
+        medewerkerCreatedDto.setGebruikersnaam(medewerker.getGebruikersnaam());
+        medewerkerCreatedDto.setRole(medewerker.getRole());
+        medewerkerCreatedDto.setEnabled(medewerker.isEnabled());
+        return medewerkerCreatedDto;
+    }
+}

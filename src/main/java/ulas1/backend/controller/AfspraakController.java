@@ -4,8 +4,7 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.Afspraak;
-import ulas1.backend.domain.Klant;
+import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
 import ulas1.backend.service.AfspraakService;
 import ulas1.backend.service.KlantService;
@@ -36,9 +35,19 @@ public class AfspraakController {
         return ResponseEntity.created(location).body(afspraak);
     }
 
-    @GetMapping("{bsn}")
+    @GetMapping("klant/{bsn}")
     public ResponseEntity<Optional<List<Afspraak>>> getAfspraken(@PathVariable Integer bsn){
         Optional<List<Afspraak>> afspraken = afspraakService.getAfspraken(bsn);
+        if(afspraken.isPresent()) {
+            return ResponseEntity.ok(afspraken);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("gebruiker/{gebruikersnaam}")
+    public ResponseEntity<Optional<List<Afspraak>>> getAfspraken(@PathVariable String gebruikersnaam){
+        Optional<List<Afspraak>> afspraken = afspraakService.getAfspraken(gebruikersnaam);
         if(afspraken.isPresent()) {
             return ResponseEntity.ok(afspraken);
         }else{

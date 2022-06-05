@@ -1,9 +1,8 @@
 package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.init.CannotReadScriptException;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.OverigeHandeling;
+import ulas1.backend.domain.entity.OverigeHandeling;
 import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.repository.OverigeHandelingRepository;
 

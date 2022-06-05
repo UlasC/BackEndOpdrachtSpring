@@ -1,12 +1,10 @@
 package ulas1.backend.service;
 
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import ulas1.backend.domain.BestaandeHandeling;
-import ulas1.backend.domain.Onderdeel;
+import ulas1.backend.domain.entity.Onderdeel;
 
 import ulas1.backend.domain.dto.UpdateVoorraadDto;
 import ulas1.backend.exception.OnderdeelNotFoundException;

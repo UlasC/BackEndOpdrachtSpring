@@ -1,7 +1,5 @@
 package ulas1.backend.domain.dto;
 
-import ulas1.backend.domain.Klant;
-
 public class CreateAutoDto {
 
     private String kenteken;

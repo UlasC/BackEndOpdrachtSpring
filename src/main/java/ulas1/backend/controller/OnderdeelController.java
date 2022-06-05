@@ -3,19 +3,12 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ulas1.backend.domain.BestaandeHandeling;
-import ulas1.backend.domain.Klant;
-import ulas1.backend.domain.Onderdeel;
+import ulas1.backend.domain.entity.Onderdeel;
 import ulas1.backend.domain.dto.UpdateVoorraadDto;
-import ulas1.backend.exception.KlantNotFoundException;
-import ulas1.backend.exception.OnderdeelNotFoundException;
-import ulas1.backend.repository.OnderdeelRepository;
-import ulas1.backend.service.KlantService;
 import ulas1.backend.service.OnderdeelService;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
 
 
 @RestController // Dit is de controller: spring object

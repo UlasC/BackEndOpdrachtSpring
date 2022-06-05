@@ -8,7 +8,16 @@ public class CreateAfspraakDto {
     private int maand;
     private int jaar;
     private int bsn;
+    private String gebruikersnaam;
     private String soortAfspraak;
+
+    public String getGebruikersnaam(){
+        return gebruikersnaam;
+    }
+
+    public void setGebruikersnaam(String gebruikersnaam){
+        this.gebruikersnaam = gebruikersnaam;
+    }
 
     public int getBsn() {
         return bsn;

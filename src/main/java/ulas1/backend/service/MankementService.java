@@ -2,13 +2,11 @@ package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.*;
 import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.domain.dto.CreateMankementDto;
+import ulas1.backend.domain.entity.*;
 import ulas1.backend.exception.AutoNotFoundException;
-import ulas1.backend.exception.HandelingNotFoundException;
 import ulas1.backend.exception.MankementNotFoundException;
-import ulas1.backend.exception.OnderdeelNotFoundException;
 import ulas1.backend.repository.MankementRepository;
 
 import java.util.ArrayList;
@@ -90,6 +88,18 @@ public class MankementService {
 
             mankementRepository.save(mankement);
             return mankement;
+        }
+
+        public Mankement deleteOverigeHandelingen(int mankementId){
+            Mankement mankement = getMankementByMankementId(mankementId);
+            mankement.setOverigeHandelingen(new ArrayList<>());
+            mankementRepository.save(mankement);
+            return mankement;
+        }
+
+        public void deleteMankement(int mankementId){
+            Mankement mankement = getMankementByMankementId(mankementId);
+            mankementRepository.delete(mankement);
         }
 
         public Mankement getMankementByMankementId(int mankementId) {

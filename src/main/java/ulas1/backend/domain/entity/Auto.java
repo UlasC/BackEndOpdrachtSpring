@@ -1,4 +1,4 @@
-package ulas1.backend.domain;
+package ulas1.backend.domain.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

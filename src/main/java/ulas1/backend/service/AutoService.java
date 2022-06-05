@@ -2,16 +2,12 @@ package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.Afspraak;
-import ulas1.backend.domain.Auto;
-import ulas1.backend.domain.Klant;
-import ulas1.backend.domain.dto.CreateAfspraakDto;
+import ulas1.backend.domain.entity.Auto;
+import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.dto.CreateAutoDto;
 import ulas1.backend.exception.KlantNotFoundException;
-import ulas1.backend.repository.AfspraakRepository;
 import ulas1.backend.repository.AutoRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

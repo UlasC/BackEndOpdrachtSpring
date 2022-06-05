@@ -1,7 +1,5 @@
 package ulas1.backend.idClass;
 
-import ulas1.backend.domain.Klant;
-
 import java.io.Serializable;
 
 public class AfspraakId implements Serializable {

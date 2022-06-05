@@ -1,4 +1,4 @@
-package ulas1.backend.controller;
+package ulas1.backend.controller.advice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

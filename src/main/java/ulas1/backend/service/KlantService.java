@@ -1,9 +1,8 @@
 package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import ulas1.backend.domain.Klant;
+import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.repository.KlantRepository;
 
 import java.util.Optional;
