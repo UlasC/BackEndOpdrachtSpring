@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ulas1.backend.domain.BestaandeHandeling;
 import ulas1.backend.domain.dto.CreateHandelingDto;
+import ulas1.backend.exception.HandelingNotFoundException;
 import ulas1.backend.repository.HandelingRepository;
 
 import java.util.Optional;
@@ -26,8 +27,23 @@ import java.util.Optional;
             return handeling;
         }
 
-        public Optional<BestaandeHandeling> getHandelingByHandelingsnummer(Integer handelingsnummer) {
+        public BestaandeHandeling getHandelingByHandelingsnummer(Integer handelingsnummer) {
             Optional<BestaandeHandeling> handeling = handelingRepository.findById(handelingsnummer);
+            if(handeling.isEmpty()){
+                throw new HandelingNotFoundException(handelingsnummer);
+            }
+            return handeling.get();
+        }
+
+        public BestaandeHandeling updatePrijs(Integer handelingsnummer, double nieuwePrijs){
+            BestaandeHandeling handeling = getHandelingByHandelingsnummer(handelingsnummer);
+            handeling.setPrijs(nieuwePrijs);
+            handelingRepository.save(handeling);
             return handeling;
+        }
+
+        public void deleteHandeling(Integer handelingsnummer){
+            BestaandeHandeling handeling = getHandelingByHandelingsnummer(handelingsnummer);
+            handelingRepository.delete(handeling);
         }
 }

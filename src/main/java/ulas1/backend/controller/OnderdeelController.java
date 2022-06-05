@@ -3,6 +3,7 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ulas1.backend.domain.BestaandeHandeling;
 import ulas1.backend.domain.Klant;
 import ulas1.backend.domain.Onderdeel;
 import ulas1.backend.domain.dto.UpdateVoorraadDto;
@@ -40,20 +41,26 @@ public class OnderdeelController {
 
     @GetMapping("{artikelnummer}")
     public ResponseEntity<Onderdeel> getOnderdeel(@PathVariable int artikelnummer){
-        Optional<Onderdeel> onderdeel = onderdeelService.getOnderdeelByArtikelnummer(artikelnummer);
-        if(onderdeel.isEmpty()){
-            throw new OnderdeelNotFoundException(artikelnummer);
-        }
-        return ResponseEntity.ok(onderdeel.get());
+        Onderdeel onderdeel = onderdeelService.getOnderdeelByArtikelnummer(artikelnummer);
+        return ResponseEntity.ok(onderdeel);
     }
-    //@PostMapping("{artikelnummer}")
-    @RequestMapping(value = "{artikelnummer}/voorraad", produces = "application/json",  method=RequestMethod.PUT)
+
+    @PutMapping("{artikelnummer}/voorraad")
     public ResponseEntity<Onderdeel> updateVoorraad(@PathVariable int artikelnummer, @Valid @RequestBody UpdateVoorraadDto updateVoorraadDto){
-        Optional<Onderdeel> onderdeel = onderdeelService.updateVoorraad(artikelnummer, updateVoorraadDto);
-        if(onderdeel.isEmpty()){
-            throw new OnderdeelNotFoundException(artikelnummer);
-        }
-        return ResponseEntity.ok(onderdeel.get());
+        Onderdeel onderdeel = onderdeelService.updateVoorraad(artikelnummer, updateVoorraadDto);
+        return ResponseEntity.ok(onderdeel);
+    }
+
+    @PutMapping("{artikelnummer}/prijs")
+    public ResponseEntity<Onderdeel> updatePrijs(@PathVariable int artikelnummer, @Valid @RequestBody double nieuweprijs){
+        Onderdeel onderdeel = onderdeelService.updatePrijs(artikelnummer, nieuweprijs);
+        return ResponseEntity.ok(onderdeel);
+    }
+
+    @DeleteMapping("{artikelnummer}")
+    public ResponseEntity<Onderdeel> deleteOnderdeel(@PathVariable int artikelnummer){
+        onderdeelService.deleteOnderdeel(artikelnummer);
+        return ResponseEntity.noContent().build();
     }
 }
 

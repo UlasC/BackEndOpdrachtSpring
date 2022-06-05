@@ -57,13 +57,10 @@ public class MankementService {
 
         public Mankement addOnderdeelToMankement(int mankementId, int onderdeelId){
             Mankement mankement = getMankementByMankementId(mankementId);
-            Optional<Onderdeel> onderdeel = onderdeelService.getOnderdeelByArtikelnummer(onderdeelId);
-            if(onderdeel.isEmpty()){
-                throw new OnderdeelNotFoundException(onderdeelId);
-            }
+            Onderdeel onderdeel = onderdeelService.getOnderdeelByArtikelnummer(onderdeelId);
 
             List<Onderdeel> onderdelen = mankement.getOnderdelen();
-            onderdelen.add(onderdeel.get());
+            onderdelen.add(onderdeel);
             mankement.setOnderdelen(onderdelen);
 
             mankementRepository.save(mankement);
@@ -72,13 +69,10 @@ public class MankementService {
 
         public Mankement addBestaandeHandelingToMankement(int mankementId, int handelingId){
             Mankement mankement = getMankementByMankementId(mankementId);
-            Optional<BestaandeHandeling> handeling = handelingService.getHandelingByHandelingsnummer(handelingId);
-            if(handeling.isEmpty()){
-                throw new HandelingNotFoundException(handelingId);
-            }
+            BestaandeHandeling handeling = handelingService.getHandelingByHandelingsnummer(handelingId);
 
             List<BestaandeHandeling> handelingen = mankement.getBestaandeHandelingen();
-            handelingen.add(handeling.get());
+            handelingen.add(handeling);
             mankement.setBestaandeHandelingen(handelingen);
 
             mankementRepository.save(mankement);

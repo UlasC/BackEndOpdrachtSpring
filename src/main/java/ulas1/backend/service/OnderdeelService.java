@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import ulas1.backend.domain.BestaandeHandeling;
 import ulas1.backend.domain.Onderdeel;
 
 import ulas1.backend.domain.dto.UpdateVoorraadDto;
+import ulas1.backend.exception.OnderdeelNotFoundException;
 import ulas1.backend.repository.OnderdeelRepository;
 
 import java.util.Optional;
@@ -26,18 +28,31 @@ public class OnderdeelService {
         return onderdeel;
     }
 
-    public Optional<Onderdeel> getOnderdeelByArtikelnummer(Integer artikelnummer) {
+    public Onderdeel getOnderdeelByArtikelnummer(Integer artikelnummer) {
         Optional<Onderdeel> onderdeel = onderdeelRepository.findById(artikelnummer);
+        if(onderdeel.isEmpty()){
+            throw new OnderdeelNotFoundException(artikelnummer);
+        }
+        return onderdeel.get();
+    }
+
+    public Onderdeel updateVoorraad(int artikelnummer, UpdateVoorraadDto updateVoorraadDto){
+        Onderdeel onderdeel = getOnderdeelByArtikelnummer(artikelnummer);
+        onderdeel.updateVoorraad(updateVoorraadDto.getVerschil());
+        onderdeelRepository.save(onderdeel);
         return onderdeel;
     }
-    public Optional<Onderdeel> updateVoorraad(int artikelnummer, UpdateVoorraadDto updateVoorraadDto){
-        Optional<Onderdeel> onderdeel = onderdeelRepository.findById(artikelnummer);
-        if(onderdeel.isEmpty()) {
-            return Optional.empty();
-        }
-        onderdeel.get().updateVoorraad(updateVoorraadDto.getVerschil());
-        onderdeelRepository.save(onderdeel.get());
+
+    public Onderdeel updatePrijs(Integer artikelnummer, double nieuwePrijs){
+        Onderdeel onderdeel = getOnderdeelByArtikelnummer(artikelnummer);
+        onderdeel.setPrijs(nieuwePrijs);
+        onderdeelRepository.save(onderdeel);
         return onderdeel;
+    }
+
+    public void deleteOnderdeel(Integer artikelnummer){
+        Onderdeel onderdeel = getOnderdeelByArtikelnummer(artikelnummer);
+        onderdeelRepository.delete(onderdeel);
     }
 }
 

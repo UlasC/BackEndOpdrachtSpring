@@ -36,11 +36,19 @@ public class HandelingController {
 
         @GetMapping("{handelingsnummer}")
         public ResponseEntity<BestaandeHandeling> getHandeling(@PathVariable int handelingsnummer){
-            Optional<BestaandeHandeling> handeling = handelingService.getHandelingByHandelingsnummer(handelingsnummer);
-            if(handeling.isEmpty()){
-                throw new HandelingNotFoundException(handelingsnummer);
-            }
-            return ResponseEntity.ok(handeling.get());
+            BestaandeHandeling handeling = handelingService.getHandelingByHandelingsnummer(handelingsnummer);
+            return ResponseEntity.ok(handeling);
+        }
 
+        @PutMapping("{handelingsnummer}/prijs")
+        public ResponseEntity<BestaandeHandeling> updatePrijs(@PathVariable int handelingsnummer, @RequestBody double nieuweprijs){
+            BestaandeHandeling handeling = handelingService.updatePrijs(handelingsnummer, nieuweprijs);
+            return ResponseEntity.ok(handeling);
+        }
+
+        @DeleteMapping("{handelingsnummer}")
+        public ResponseEntity<BestaandeHandeling> deleteHandeling(@PathVariable int handelingsnummer){
+            handelingService.deleteHandeling(handelingsnummer);
+            return ResponseEntity.noContent().build();
         }
 }
