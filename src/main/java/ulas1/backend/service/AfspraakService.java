@@ -37,18 +37,14 @@ public class AfspraakService {
         afspraak.setTijd(createAfspraakDto.getTijd());
         afspraak.setSoortAfspraak(createAfspraakDto.getSoortAfspraak());
 
-        Optional <Klant> klant = klantService.getKlantByBsn(createAfspraakDto.getBsn());
-        if(klant.isEmpty()){
-            throw new KlantNotFoundException(createAfspraakDto.getBsn());
-        }
-        Klant persoon = klant.get();
-        afspraak.setKlant(persoon);
+        Klant klant = klantService.getKlantByBsn(createAfspraakDto.getBsn());
+        afspraak.setKlant(klant);
 
         Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(createAfspraakDto.getGebruikersnaam());
         afspraak.setMedewerker(medewerker);
         
-        if(hasAfspraak(persoon,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
-            throw new KlantHeeftAlAfspraakException(persoon.getFirstName(), persoon.getLastName());
+        if(hasAfspraak(klant,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
+            throw new KlantHeeftAlAfspraakException(klant.getFirstName(), klant.getLastName());
         }
         if(hasAfspraak(medewerker,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
             throw new MedewerkerHeeftAlAfspraakException(medewerker.getGebruikersnaam());
@@ -59,11 +55,8 @@ public class AfspraakService {
     }
 
     public Optional <List<Afspraak>> getAfspraken(int bsn){
-        Optional <Klant> klant= klantService.getKlantByBsn(bsn);
-        if(klant.isEmpty()){
-            throw new KlantNotFoundException(bsn);
-        }
-        Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByKlant(klant.get());
+        Klant klant= klantService.getKlantByBsn(bsn);
+        Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByKlant(klant);
         return afspraken;
     }
 

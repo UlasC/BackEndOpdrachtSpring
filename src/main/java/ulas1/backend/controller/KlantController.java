@@ -35,10 +35,7 @@ public class KlantController { // classe
 
     @GetMapping("{bsn}")
     public ResponseEntity<Klant> getKlant(@PathVariable int bsn){
-        Optional<Klant> klant = klantservice.getKlantByBsn(bsn);
-        if(klant.isEmpty()){
-            throw new KlantNotFoundException(bsn);
-        }
-        return ResponseEntity.ok(klant.get());
+        Klant klant = klantservice.getKlantByBsn(bsn);
+        return ResponseEntity.ok(klant);
     }
 }

@@ -29,12 +29,8 @@ public class AutoService {
         auto.setBrandstof(createAutoDto.getBrandstof());
         auto.setKenteken(createAutoDto.getKenteken());
 
-        Optional<Klant> klant = klantService.getKlantByBsn(createAutoDto.getBsn());
-        if(klant.isEmpty()){
-            throw new KlantNotFoundException(createAutoDto.getBsn());
-        }
-        Klant persoon = klant.get();
-        auto.setKlant(persoon);
+        Klant klant = klantService.getKlantByBsn(createAutoDto.getBsn());
+        auto.setKlant(klant);
         autoRepository.save(auto);
         return auto;
     }
@@ -44,11 +40,8 @@ public class AutoService {
     }
 
     public Optional <Auto> getAutoByKlant(int bsn){
-        Optional <Klant> klant= klantService.getKlantByBsn(bsn);
-        if(klant.isEmpty()){
-            throw new KlantNotFoundException(bsn);
-        }
-        Optional<Auto> auto  = autoRepository.findAutoByKlant(klant.get());
+        Klant klant= klantService.getKlantByBsn(bsn);
+        Optional<Auto> auto  = autoRepository.findAutoByKlant(klant);
         return auto;
     }
 

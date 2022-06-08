@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ulas1.backend.domain.dto.LogInDto;
 import ulas1.backend.service.JwtService;
 
+import javax.validation.Valid;
+
 @RestController
 public class LogInController {
     @Autowired
@@ -23,7 +25,7 @@ public class LogInController {
     JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> signIn(@RequestBody LogInDto logInDto){
+    public ResponseEntity<Object> signIn(@Valid @RequestBody LogInDto logInDto){
         UsernamePasswordAuthenticationToken up = new UsernamePasswordAuthenticationToken(logInDto.getGebruikersnaam(), logInDto.getWachtwoord());
         Authentication auth = authManager.authenticate(up);
 
