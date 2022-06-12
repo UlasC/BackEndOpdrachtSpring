@@ -35,25 +35,25 @@ public class MankementController {
             return ResponseEntity.created(location).body(mankement);
         }
 
-        @PostMapping("{mankementId}/onderdeel")
+        @PostMapping("{mankementId}/onderdelen")
         public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody int onderdeelId){
             Mankement mankement = mankementService.addOnderdeelToMankement(mankementId, onderdeelId);
             return ResponseEntity.ok(mankement);
         }
 
-        @PostMapping("{mankementId}/handeling")
+        @PostMapping("{mankementId}/handelingen")
         public ResponseEntity<Mankement> addBestaandeHandelingtoMankement(@PathVariable int mankementId, @RequestBody int handelingsnummer){
             Mankement mankement = mankementService.addBestaandeHandelingToMankement(mankementId, handelingsnummer);
             return ResponseEntity.ok(mankement);
         }
 
-        @PostMapping("{mankementId}/overigehandeling")
+        @PostMapping("{mankementId}/overigehandelingen")
         public ResponseEntity<Mankement> addOnderdeeltoMankement(@PathVariable int mankementId, @RequestBody CreateHandelingDto createHandelingDto){
             Mankement mankement = mankementService.addOverigeHandelingToMankement(mankementId, createHandelingDto);
             return ResponseEntity.ok(mankement);
         }
 
-        @DeleteMapping("{mankementId}/overigehandeling")
+        @DeleteMapping("{mankementId}/overigehandelingen")
         public ResponseEntity<Mankement> deleteOverigeHandelingen(@PathVariable int mankementId){
             Mankement mankement = mankementService.deleteOverigeHandelingen(mankementId);
             return ResponseEntity.ok(mankement);

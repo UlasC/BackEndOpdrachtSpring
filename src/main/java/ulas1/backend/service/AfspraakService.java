@@ -12,6 +12,7 @@ import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.exception.MedewerkerHeeftAlAfspraakException;
 import ulas1.backend.repository.AfspraakRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,22 +55,30 @@ public class AfspraakService {
         return afspraak;
     }
 
-    public Optional <List<Afspraak>> getAfspraken(int bsn){
+    public List<Afspraak> getAfspraken(int bsn){
         Klant klant= klantService.getKlantByBsn(bsn);
         Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByKlant(klant);
-        return afspraken;
+        if(afspraken.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return afspraken.get();
+        }
     }
 
-    public Optional<List<Afspraak>> getAfspraken(String gebruikersnaam){
+    public List<Afspraak> getAfspraken(String gebruikersnaam){
         Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(gebruikersnaam);
         Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByMedewerker(medewerker);
-        return afspraken;
+        if(afspraken.isEmpty()){
+            return new ArrayList<>();
+        }else{
+            return afspraken.get();
+        }
     }
 
     public boolean hasAfspraak(Klant klant, String tijd, int dag, int maand, int jaar){
-        Optional<List<Afspraak>> afspraken = getAfspraken(klant.getBsn());
-        if(afspraken.isPresent()){
-            for(Afspraak afspraak: afspraken.get()){
+        List<Afspraak> afspraken = getAfspraken(klant.getBsn());
+        if(afspraken.size() > 0){
+            for(Afspraak afspraak: afspraken){
                 if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
                     return true;
                 }
@@ -79,9 +88,9 @@ public class AfspraakService {
     }
 
     public boolean hasAfspraak(Medewerker medewerker, String tijd, int dag, int maand, int jaar){
-        Optional<List<Afspraak>> afspraken = getAfspraken(medewerker.getGebruikersnaam());
-        if(afspraken.isPresent()){
-            for(Afspraak afspraak: afspraken.get()){
+        List<Afspraak> afspraken = getAfspraken(medewerker.getGebruikersnaam());
+        if(afspraken.size() > 0){
+            for(Afspraak afspraak: afspraken){
                 if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
                     return true;
                 }

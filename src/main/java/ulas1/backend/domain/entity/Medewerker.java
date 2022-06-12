@@ -10,9 +10,9 @@ import java.util.List;
 @Entity
 public class Medewerker {
 
-    public static String BALIEMEDEWERKER = "BALIEMEDEWERKER";
-    public static String MONTEUR = "MONTEUR";
-    public static String BACKENDMEDEWERKER = "BACKENDMEDEWERKER";
+    public static final String BALIEMEDEWERKER = "BALIEMEDEWERKER";
+    public static final String MONTEUR = "MONTEUR";
+    public static final String BACKENDMEDEWERKER = "BACKENDMEDEWERKER";
 
     @Id
     private String gebruikersnaam;

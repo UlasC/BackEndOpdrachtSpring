@@ -39,11 +39,8 @@ public class MankementService {
             mankement.setBetalingstatus(createMankementDto.getBetalingstatus());
             mankement.setReparatieFase(createMankementDto.getReparatieFase());
 
-            Optional<Auto> auto = autoService.getAutoByKenteken(createMankementDto.getKenteken());
-            if(auto.isEmpty()){
-                throw new AutoNotFoundException(createMankementDto.getKenteken());
-            }
-            mankement.setAuto(auto.get());
+            Auto auto = autoService.getAutoByKenteken(createMankementDto.getKenteken());
+            mankement.setAuto(auto);
 
             mankement.setOnderdelen(new ArrayList<>());
             mankement.setBestaandeHandelingen(new ArrayList<>());
@@ -111,11 +108,8 @@ public class MankementService {
         }
 
         public Optional <List <Mankement>> getMankementenByAuto(String kenteken){
-            Optional <Auto> auto= autoService.getAutoByKenteken(kenteken);
-            if(auto.isEmpty()){
-                throw new AutoNotFoundException(kenteken);
-            }
-            Optional<List < Mankement>> mankement  = mankementRepository.findMankementenByAuto(auto.get());
+            Auto auto= autoService.getAutoByKenteken(kenteken);
+            Optional<List < Mankement>> mankement  = mankementRepository.findMankementenByAuto(auto);
             return mankement;
         }
 

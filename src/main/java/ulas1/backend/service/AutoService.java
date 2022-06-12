@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ulas1.backend.domain.entity.Auto;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.dto.CreateAutoDto;
+import ulas1.backend.exception.AutoNotFoundException;
+import ulas1.backend.exception.KlantHasNoCarException;
 import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.repository.AutoRepository;
 
@@ -34,15 +36,21 @@ public class AutoService {
         autoRepository.save(auto);
         return auto;
     }
-    public Optional <Auto> getAutoByKenteken(String kenteken) {
+    public Auto getAutoByKenteken(String kenteken) {
         Optional<Auto> auto = autoRepository.findById(kenteken);
-        return auto;
+        if(auto.isEmpty()){
+            throw new AutoNotFoundException(kenteken);
+        }
+        return auto.get();
     }
 
-    public Optional <Auto> getAutoByKlant(int bsn){
+    public Auto getAutoByKlant(int bsn){
         Klant klant= klantService.getKlantByBsn(bsn);
         Optional<Auto> auto  = autoRepository.findAutoByKlant(klant);
-        return auto;
+        if(auto.isEmpty()){
+            throw new KlantHasNoCarException(bsn);
+        }
+        return auto.get();
     }
 
 }

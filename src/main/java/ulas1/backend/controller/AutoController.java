@@ -23,9 +23,7 @@ public class AutoController {
 
     }
 
-
     private AutoService autoService;
-
 
     @PostMapping
     public ResponseEntity<Auto> createAuto(@RequestBody CreateAutoDto createAutoDto) {
@@ -38,20 +36,14 @@ public class AutoController {
 
     @GetMapping("{kenteken}")
     public ResponseEntity<Auto> getAuto(@PathVariable String kenteken) {
-        Optional<Auto> auto = autoService.getAutoByKenteken(kenteken);
-        if (auto.isEmpty()) {
-            throw new AutoNotFoundException(kenteken);
-        }
-        return ResponseEntity.ok(auto.get());
+        Auto auto = autoService.getAutoByKenteken(kenteken);
+        return ResponseEntity.ok(auto);
     }
 
     @GetMapping("klant/{bsn}")
     public ResponseEntity<Auto> getAuto(@PathVariable int bsn){
-        Optional<Auto> auto = autoService.getAutoByKlant(bsn);
-        if (auto.isEmpty()) {
-            throw new KlantHasNoCarException(bsn);
-        }
-        return ResponseEntity.ok(auto.get());
+        Auto auto = autoService.getAutoByKlant(bsn);
+        return ResponseEntity.ok(auto);
     }
 }
 

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ulas1.backend.domain.entity.Onderdeel;
-import ulas1.backend.domain.dto.UpdateVoorraadDto;
 import ulas1.backend.service.OnderdeelService;
 
 import javax.validation.Valid;
@@ -39,8 +38,8 @@ public class OnderdeelController {
     }
 
     @PutMapping("{artikelnummer}/voorraad")
-    public ResponseEntity<Onderdeel> updateVoorraad(@PathVariable int artikelnummer, @Valid @RequestBody UpdateVoorraadDto updateVoorraadDto){
-        Onderdeel onderdeel = onderdeelService.updateVoorraad(artikelnummer, updateVoorraadDto);
+    public ResponseEntity<Onderdeel> updateVoorraad(@PathVariable int artikelnummer, @Valid @RequestBody int verschil){
+        Onderdeel onderdeel = onderdeelService.updateVoorraad(artikelnummer, verschil);
         return ResponseEntity.ok(onderdeel);
     }
 

@@ -3,15 +3,14 @@ package ulas1.backend.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ulas1.backend.domain.entity.Mankement;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Onderdeel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int artikelnummer;
     private double prijs;
     private String name;

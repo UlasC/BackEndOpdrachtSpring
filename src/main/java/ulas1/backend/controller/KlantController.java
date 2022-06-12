@@ -7,6 +7,7 @@ import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.service.KlantService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class KlantController { // classe
 
     // deze methode zorgt ervoor: als er post request wordt gestuurd: word de klant aangemaakt.
     @PostMapping
-    public ResponseEntity<Klant> createKlant(@RequestBody Klant klant){
+    public ResponseEntity<Klant> createKlant(@Valid @RequestBody Klant klant){
         klantservice.createKlant(klant);
 
         final URI location = URI.create("/klanten/" + klant.getBsn());

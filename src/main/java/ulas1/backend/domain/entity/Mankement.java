@@ -1,9 +1,6 @@
 package ulas1.backend.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -12,6 +9,7 @@ public class Mankement {
     private String betalingstatus;
     private String reparatieFase;// akkoord of geen akkoord
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int mankementId;
 
     @ManyToMany

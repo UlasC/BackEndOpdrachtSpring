@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import ulas1.backend.domain.entity.Onderdeel;
 
-import ulas1.backend.domain.dto.UpdateVoorraadDto;
 import ulas1.backend.exception.OnderdeelNotFoundException;
 import ulas1.backend.repository.OnderdeelRepository;
 
@@ -34,9 +33,9 @@ public class OnderdeelService {
         return onderdeel.get();
     }
 
-    public Onderdeel updateVoorraad(int artikelnummer, UpdateVoorraadDto updateVoorraadDto){
+    public Onderdeel updateVoorraad(int artikelnummer, int verschil){
         Onderdeel onderdeel = getOnderdeelByArtikelnummer(artikelnummer);
-        onderdeel.updateVoorraad(updateVoorraadDto.getVerschil());
+        onderdeel.updateVoorraad(verschil);
         onderdeelRepository.save(onderdeel);
         return onderdeel;
     }

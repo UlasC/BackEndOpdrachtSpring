@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
 import ulas1.backend.service.AfspraakService;
-import ulas1.backend.service.KlantService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class AfspraakController {
 
     @Autowired
-    public AfspraakController(AfspraakService afspraakService, KlantService klantService) {
+    public AfspraakController(AfspraakService afspraakService) {
         this.afspraakService = afspraakService;
     }
 
@@ -27,7 +27,7 @@ public class AfspraakController {
 
 
     @PostMapping
-    public ResponseEntity<Afspraak> createAfspraak(@RequestBody CreateAfspraakDto createAfspraakDto){
+    public ResponseEntity<Afspraak> createAfspraak(@Valid @RequestBody CreateAfspraakDto createAfspraakDto){
         Afspraak afspraak = afspraakService.createAfspraak(createAfspraakDto);
 
         final URI location = URI.create("/afspraken/" + afspraak.getKlant().getBsn());
@@ -36,19 +36,19 @@ public class AfspraakController {
     }
 
     @GetMapping("klant/{bsn}")
-    public ResponseEntity<Optional<List<Afspraak>>> getAfspraken(@PathVariable Integer bsn){
-        Optional<List<Afspraak>> afspraken = afspraakService.getAfspraken(bsn);
-        if(afspraken.isPresent()) {
+    public ResponseEntity<List<Afspraak>> getAfspraken(@PathVariable Integer bsn){
+        List<Afspraak> afspraken = afspraakService.getAfspraken(bsn);
+        if(afspraken.size() > 0) {
             return ResponseEntity.ok(afspraken);
         }else{
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("gebruiker/{gebruikersnaam}")
-    public ResponseEntity<Optional<List<Afspraak>>> getAfspraken(@PathVariable String gebruikersnaam){
-        Optional<List<Afspraak>> afspraken = afspraakService.getAfspraken(gebruikersnaam);
-        if(afspraken.isPresent()) {
+    @GetMapping("medewerker/{gebruikersnaam}")
+    public ResponseEntity<List<Afspraak>> getAfspraken(@PathVariable String gebruikersnaam){
+        List<Afspraak> afspraken = afspraakService.getAfspraken(gebruikersnaam);
+        if(afspraken.size() > 0) {
             return ResponseEntity.ok(afspraken);
         }else{
             return ResponseEntity.notFound().build();
