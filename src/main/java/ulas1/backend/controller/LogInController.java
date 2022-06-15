@@ -30,7 +30,7 @@ public class LogInController {
         Authentication auth = authManager.authenticate(up);
 
         UserDetails ud = (UserDetails) auth.getPrincipal();
-        String token = jwtService.generateToken(ud);
+        String token = jwtService.generateToken(ud, System.currentTimeMillis());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .body(token);

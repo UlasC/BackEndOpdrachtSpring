@@ -36,14 +36,16 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails){
+    //This method generates a token based on UserDetails
+    //the parameter "currentTime" was added for testing purposes
+    //During production the parameter "currentTime" should always be System.currentTimeMillis(), however
+    public String generateToken(UserDetails userDetails, long currentTime){
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername(), currentTime);
     }
 
-    private String createToken(Map<String, Object> claims, String subject){
+    private String createToken(Map<String, Object> claims, String subject, long currentTime){
         long validPeriod = 1000 * 60 * 60 * 24; // 1 day in ms
-        long currentTime = System.currentTimeMillis();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)

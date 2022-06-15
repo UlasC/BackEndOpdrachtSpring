@@ -1,6 +1,7 @@
 package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ulas1.backend.domain.dto.MedewerkerCreatedDto;
 import ulas1.backend.domain.entity.Medewerker;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class MedewerkerService {
     private MedewerkerRepository medewerkerRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     public MedewerkerService(MedewerkerRepository medewerkerRepository){
@@ -19,6 +21,9 @@ public class MedewerkerService {
     }
 
     public MedewerkerCreatedDto addMedewerker(Medewerker medewerker){
+        //Encode raw password
+        medewerker.setWachtwoord(encoder.encode(medewerker.getWachtwoord()));
+
         medewerkerRepository.save(medewerker);
         MedewerkerCreatedDto medewerkerCreatedDto = getDTOfromMedewerker(medewerker);
         return medewerkerCreatedDto;
@@ -34,7 +39,8 @@ public class MedewerkerService {
 
     public void updateWachtwoord(String gebruikersnaam, String wachtwoord){
         Medewerker medewerker = getMedewerkerByGebruikersnaam(gebruikersnaam);
-        medewerker.setWachtwoord(wachtwoord);
+        String encoded_password = encoder.encode(wachtwoord);
+        medewerker.setWachtwoord(encoded_password);
         medewerkerRepository.save(medewerker);
     }
 

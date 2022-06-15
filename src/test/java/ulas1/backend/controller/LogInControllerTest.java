@@ -25,6 +25,7 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 
 @WebMvcTest
@@ -78,7 +79,7 @@ class LogInControllerTest {
 
         Mockito.when(authManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
         Mockito.when(auth.getPrincipal()).thenReturn(ud);
-        Mockito.when(jwtService.generateToken(ud)).thenReturn(token);
+        Mockito.when(jwtService.generateToken(any(UserDetails.class), anyLong())).thenReturn(token);
 
         String LogInBody = "{\n" +
                 "\"gebruikersnaam\":\"Johnny\",\n" +
