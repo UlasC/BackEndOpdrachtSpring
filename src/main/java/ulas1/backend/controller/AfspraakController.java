@@ -1,6 +1,5 @@
 package ulas1.backend.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import ulas1.backend.service.AfspraakService;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController // Dit is de controller: spring object
 @RequestMapping("/afspraken")

@@ -3,13 +3,12 @@ package ulas1.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ulas1.backend.domain.dto.UpdateNameDto;
 import ulas1.backend.domain.entity.Klant;
-import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.service.KlantService;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController // Dit is de controller: spring object
 @RequestMapping("/klanten") // de path van de localHost
@@ -38,5 +37,23 @@ public class KlantController { // classe
     public ResponseEntity<Klant> getKlant(@PathVariable int bsn){
         Klant klant = klantservice.getKlantByBsn(bsn);
         return ResponseEntity.ok(klant);
+    }
+
+    @PutMapping("{bsn}/name")
+    public ResponseEntity<Klant> updateName(@PathVariable int bsn, @Valid @RequestBody UpdateNameDto updateNameDto){
+        Klant klant = klantservice.updateName(bsn, updateNameDto);
+        return ResponseEntity.ok(klant);
+    }
+
+    @PutMapping("{bsn}/adres")
+    public ResponseEntity<Klant> updateAdres(@PathVariable int bsn, @Valid @RequestBody String adres){
+        Klant klant = klantservice.updateAdres(bsn, adres);
+        return ResponseEntity.ok(klant);
+    }
+
+    @DeleteMapping("{bsn}")
+    public ResponseEntity<Klant> deleteKlant(@PathVariable int bsn){
+        klantservice.deleteKlant(bsn);
+        return ResponseEntity.noContent().build();
     }
 }

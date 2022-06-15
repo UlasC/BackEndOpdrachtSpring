@@ -1,4 +1,4 @@
-package ulas1.backend.idClass;
+package ulas1.backend.domain.idClass;
 
 import java.io.Serializable;
 

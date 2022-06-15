@@ -20,16 +20,12 @@ import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.exception.MedewerkerNotFoundException;
 import ulas1.backend.service.AfspraakService;
 import ulas1.backend.service.JwtService;
-import ulas1.backend.service.KlantService;
 
 import javax.sql.DataSource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 
 @WebMvcTest(AfspraakController.class)
@@ -182,7 +178,7 @@ class AfspraakControllerTest {
         int bsn = 111222666;
         String gebruikersnaam = "Ali";
 
-        String createAfspraakDtoString = String.format("{\n" +
+        return String.format("{\n" +
                 "\"tijd\":\"%s\",\n" +
                 "\"dag:\":%d,\n" +
                 "\"maand:\":%d,\n" +
@@ -191,7 +187,5 @@ class AfspraakControllerTest {
                 "\"bsn:\":%d,\n" +
                 "\"gebruikersnaam:\":\"%s\"\n" +
                 "}", tijd, dag, maand, jaar, soortAfspraak, bsn, gebruikersnaam);
-
-        return createAfspraakDtoString;
     }
 }

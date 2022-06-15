@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Service
 public class MedewerkerService {
-    private MedewerkerRepository medewerkerRepository;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final MedewerkerRepository medewerkerRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     public MedewerkerService(MedewerkerRepository medewerkerRepository){
@@ -25,8 +25,7 @@ public class MedewerkerService {
         medewerker.setWachtwoord(encoder.encode(medewerker.getWachtwoord()));
 
         medewerkerRepository.save(medewerker);
-        MedewerkerCreatedDto medewerkerCreatedDto = getDTOfromMedewerker(medewerker);
-        return medewerkerCreatedDto;
+        return getDTOfromMedewerker(medewerker);
     }
 
     public Medewerker getMedewerkerByGebruikersnaam(String gebruikersnaam){
@@ -48,8 +47,7 @@ public class MedewerkerService {
         Medewerker medewerker = getMedewerkerByGebruikersnaam(gebruikersnaam);
         medewerker.setRole(role);
         medewerkerRepository.save(medewerker);
-        MedewerkerCreatedDto medewerkerCreatedDto = getDTOfromMedewerker(medewerker);
-        return medewerkerCreatedDto;
+        return getDTOfromMedewerker(medewerker);
     }
 
     public void deleteMedewerker(String gebruikersnaam){

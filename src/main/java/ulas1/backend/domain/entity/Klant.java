@@ -1,16 +1,15 @@
 package ulas1.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ulas1.backend.domain.entity.Afspraak;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Klant {
+    @Column(length = 15)
     private String firstName;
+    @Column(length = 25)
     private String lastName;
     private String adres;
 
@@ -21,16 +20,9 @@ public class Klant {
     @JsonIgnore
     private List<Afspraak> afspraken;
 
-    public Klant(){
-
-    }
-
-    public Klant(String firstName, String lastName, String adres, int bsn) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.adres = adres;
-        this.bsn = bsn;
-    }
+    @OneToOne(mappedBy = "klant")
+    @JsonIgnore
+    private Auto auto;
 
     public String getFirstName() {
         return firstName;
@@ -62,5 +54,21 @@ public class Klant {
 
     public void setBsn(int bsn) {
         this.bsn = bsn;
+    }
+
+    public List<Afspraak> getAfspraken() {
+        return afspraken;
+    }
+
+    public void setAfspraken(List<Afspraak> afspraken) {
+        this.afspraken = afspraken;
+    }
+
+    public Auto getAuto() {
+        return auto;
+    }
+
+    public void setAuto(Auto auto) {
+        this.auto = auto;
     }
 }

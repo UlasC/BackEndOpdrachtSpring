@@ -13,14 +13,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ulas1.backend.domain.entity.BestaandeHandeling;
 import ulas1.backend.domain.entity.Medewerker;
-import ulas1.backend.service.AfspraakService;
 import ulas1.backend.service.HandelingService;
 import ulas1.backend.service.JwtService;
 
 import javax.sql.DataSource;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(HandelingController.class)
 class HandelingControllerTest {

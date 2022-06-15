@@ -6,9 +6,7 @@ import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
-import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.exception.KlantHeeftAlAfspraakException;
-import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.exception.MedewerkerHeeftAlAfspraakException;
 import ulas1.backend.repository.AfspraakRepository;
 
@@ -19,9 +17,9 @@ import java.util.Optional;
 @Service
 public class AfspraakService {
 
-    private AfspraakRepository afspraakRepository;
-    private KlantService klantService;
-    private MedewerkerService medewerkerService;
+    private final AfspraakRepository afspraakRepository;
+    private final KlantService klantService;
+    private final MedewerkerService medewerkerService;
 
     @Autowired
     public AfspraakService(AfspraakRepository afspraakRepository, KlantService klantService, MedewerkerService medewerkerService) {

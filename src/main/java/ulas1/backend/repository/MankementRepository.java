@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MankementRepository extends JpaRepository<Mankement, Integer> {
-    public Optional<List<Mankement>>findMankementenByAuto(Auto auto);
+    Optional<List<Mankement>> findMankementenByAuto(Auto auto);
 }

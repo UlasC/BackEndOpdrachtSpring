@@ -10,25 +10,20 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ulas1.backend.domain.dto.LogInDto;
 import ulas1.backend.service.*;
 
 import javax.sql.DataSource;
 
-import java.util.Collection;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 
-@WebMvcTest
+@WebMvcTest(LogInController.class)
 class LogInControllerTest {
 
     @Autowired
@@ -42,30 +37,6 @@ class LogInControllerTest {
 
     @MockBean
     DataSource dataSource;
-
-    @MockBean
-    AfspraakService afspraakService;
-
-    @MockBean
-    AutoService autoService;
-
-    @MockBean
-    HandelingService handelingService;
-
-    @MockBean
-    KlantService klantService;
-
-    @MockBean
-    MankementService mankementService;
-
-    @MockBean
-    MedewerkerService medewerkerService;
-
-    @MockBean
-    OnderdeelService onderdeelService;
-
-    @MockBean
-    OverigeHandelingService overigeHandelingService;
 
     @Test
     void correctLogInShouldReturnStatusOKandToken() throws Exception{

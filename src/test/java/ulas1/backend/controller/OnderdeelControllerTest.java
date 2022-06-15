@@ -11,17 +11,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ulas1.backend.domain.entity.BestaandeHandeling;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.domain.entity.Onderdeel;
-import ulas1.backend.service.HandelingService;
 import ulas1.backend.service.JwtService;
 import ulas1.backend.service.OnderdeelService;
 
 import javax.sql.DataSource;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(OnderdeelController.class)
 class OnderdeelControllerTest {

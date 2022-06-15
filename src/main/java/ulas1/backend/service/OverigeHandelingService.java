@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class OverigeHandelingService {
-    private OverigeHandelingRepository overigeHandelingRepository;
+    private final OverigeHandelingRepository overigeHandelingRepository;
 
     @Autowired
     public OverigeHandelingService(OverigeHandelingRepository overigeHandelingRepository) {
@@ -27,7 +27,6 @@ public class OverigeHandelingService {
     }
 
     public Optional<OverigeHandeling> getOverigeHandelingByHandelingsnummer(Integer handelingsnummer) {
-        Optional<OverigeHandeling> handeling = overigeHandelingRepository.findById(handelingsnummer);
-        return handeling;
+        return overigeHandelingRepository.findById(handelingsnummer);
     }
 }

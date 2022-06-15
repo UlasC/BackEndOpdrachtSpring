@@ -16,7 +16,6 @@ import java.util.Optional;
 @RestController // Dit is de controller: spring object
 @RequestMapping("/mankementen")
 public class MankementController {
-    
 
         @Autowired
         public MankementController(MankementService mankementService) {

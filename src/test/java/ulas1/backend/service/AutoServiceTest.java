@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.exception.KlantHasNoCarException;
-import ulas1.backend.repository.AfspraakRepository;
 import ulas1.backend.repository.AutoRepository;
 
 import java.util.Optional;

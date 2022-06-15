@@ -12,17 +12,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ulas1.backend.domain.entity.*;
-import ulas1.backend.service.AfspraakService;
 import ulas1.backend.service.JwtService;
 import ulas1.backend.service.MankementService;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 
 @WebMvcTest(MankementController.class)

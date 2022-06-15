@@ -21,20 +21,6 @@ public class Mankement {
     @ManyToOne
     private Auto auto;
 
-    public Mankement(){
-
-    }
-
-    public Mankement(String betalingstatus, String reparatieFase, List<Onderdeel> onderdelen, List<BestaandeHandeling> handelingen, List<OverigeHandeling> overigeHandelingen, Auto auto, int mankementId) {
-        this.betalingstatus = betalingstatus;
-        this.reparatieFase = reparatieFase;
-        this.onderdelen = onderdelen;
-        this.handelingen = handelingen;
-        this.overigeHandelingen = overigeHandelingen;
-        this.auto = auto;
-        this.mankementId = mankementId;
-    }
-
     public int getMankementId() {
         return mankementId;
     }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ulas1.backend.exception.AutoNotFoundException;
 import ulas1.backend.exception.KlantHasNoCarException;
-import ulas1.backend.exception.KlantNotFoundException;
 
 @ControllerAdvice
 public class AutoControllerAdvice {

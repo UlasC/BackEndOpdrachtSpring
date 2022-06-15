@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ulas1.backend.domain.dto.MedewerkerCreatedDto;
 import ulas1.backend.domain.entity.Medewerker;
-import ulas1.backend.repository.AfspraakRepository;
 import ulas1.backend.repository.MedewerkerRepository;
 
 import java.lang.reflect.Method;
@@ -33,7 +32,7 @@ class MedewerkerServiceTest {
         Method updateWachtwoord = med_serv_class.getDeclaredMethod("updateWachtwoord", String.class, String.class);
 
         //Assert
-        assertTrue(updateWachtwoord.getReturnType() == Void.TYPE);
+        assertSame(updateWachtwoord.getReturnType(), Void.TYPE);
     }
 
     @Test

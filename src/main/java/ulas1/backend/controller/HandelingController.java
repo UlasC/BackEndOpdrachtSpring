@@ -9,7 +9,6 @@ import ulas1.backend.service.HandelingService;
 
 import java.net.URI;
 
-
 @RestController // Dit is de controller: spring object
 @RequestMapping("/handelingen") // de path van de localHost
 public class HandelingController {
@@ -19,9 +18,7 @@ public class HandelingController {
             this.handelingService = handelingService;
         }
 
-
         private HandelingService handelingService;
-
 
         @PostMapping
         public ResponseEntity<BestaandeHandeling> addHandeling(@RequestBody CreateHandelingDto createHandelingDto){

@@ -7,5 +7,5 @@ import ulas1.backend.domain.entity.Klant;
 import java.util.Optional;
 
 public interface AutoRepository  extends JpaRepository<Auto, String> {
-    public Optional<Auto> findAutoByKlant(Klant klant);
+    Optional<Auto> findAutoByKlant(Klant klant);
 }

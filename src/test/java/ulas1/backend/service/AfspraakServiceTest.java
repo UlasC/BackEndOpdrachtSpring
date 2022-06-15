@@ -11,9 +11,7 @@ import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.exception.MedewerkerHeeftAlAfspraakException;
 import ulas1.backend.repository.AfspraakRepository;
-import ulas1.backend.repository.KlantRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

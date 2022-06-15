@@ -40,10 +40,12 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.userDetailsService();
     }
 
+    // codeert wachtwoorden
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -75,6 +77,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mankementen/{mankementId}/bon").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/mankementen").hasAuthority(Medewerker.MONTEUR)
                 .antMatchers("/mankementen/**").hasAuthority(Medewerker.MONTEUR)
+                .antMatchers("/medewerkers/{gebruikersnaam}/wachtwoord").access("@wachtwoordUpdateCheck.controleerGebruikersnaam(authentication,#gebruikersnaam)")
                 .antMatchers("/medewerkers").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers("/medewerkers/**").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers(HttpMethod.GET, "/onderdelen/**").hasAnyAuthority(Medewerker.MONTEUR, Medewerker.BACKENDMEDEWERKER)

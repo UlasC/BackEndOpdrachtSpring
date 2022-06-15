@@ -11,7 +11,7 @@ import java.util.Optional;
 
     @Service
     public class HandelingService {
-        private HandelingRepository handelingRepository;
+        private final HandelingRepository handelingRepository;
 
         @Autowired
         public HandelingService(HandelingRepository handelingRepository) {

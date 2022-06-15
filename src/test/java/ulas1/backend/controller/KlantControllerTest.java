@@ -20,8 +20,6 @@ import ulas1.backend.service.KlantService;
 
 import javax.sql.DataSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -128,13 +126,11 @@ class KlantControllerTest {
         String lastName = "Magie";
         String adres = "Magiestraat 42Z";
 
-        String klantString = String.format("{\n" +
+        return String.format("{\n" +
                 "\"bsn\":%d,\n" +
                 "\"firstName:\":\"%s\",\n" +
                 "\"lastName:\":\"%s\",\n" +
                 "\"adres:\":\"%s\"\n" +
                 "}",bsn,firstName,lastName,adres);
-
-        return klantString;
     }
 }

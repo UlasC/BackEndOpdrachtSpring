@@ -2,6 +2,7 @@ package ulas1.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -15,6 +16,7 @@ public class Medewerker {
     public static final String BACKENDMEDEWERKER = "BACKENDMEDEWERKER";
 
     @Id
+    @Column(length = 15)
     private String gebruikersnaam;
     private String wachtwoord;
     protected String role;

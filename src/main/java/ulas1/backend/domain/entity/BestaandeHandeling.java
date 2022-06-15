@@ -18,15 +18,6 @@ public class BestaandeHandeling {
     @JsonIgnore
     private List<Mankement> mankementen;
 
-    public BestaandeHandeling(){
-    }
-
-    public BestaandeHandeling(int handelingsnummer, double prijs, String handeling) {
-        this.handelingsnummer = handelingsnummer;
-        this.prijs = prijs;
-        this.handeling = handeling;
-    }
-
     public int getHandelingsnummer() {
         return handelingsnummer;
     }

@@ -1,17 +1,15 @@
 package ulas1.backend.domain.entity;
 
-import ulas1.backend.idClass.AfspraakId;
+import ulas1.backend.domain.idClass.AfspraakId;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @IdClass(AfspraakId.class)
 public class Afspraak {
 
     @Id
+    @Column(length = 5)
     private String tijd;
     @Id
     private int dag;
@@ -19,8 +17,6 @@ public class Afspraak {
     private int maand;
     @Id
     private int jaar;
-
-
 
     private String soortAfspraak;
 
@@ -30,22 +26,6 @@ public class Afspraak {
     
     @ManyToOne
     private Medewerker medewerker;
-
-    public Afspraak(){
-
-    }
-
-
-
-    public Afspraak(String tijd, int dag, int maand, int jaar, String soortAfspraak, Klant klant, Medewerker medewerker) {
-        this.tijd = tijd;
-        this.dag = dag;
-        this.maand = maand;
-        this.jaar = jaar;
-        this.soortAfspraak = soortAfspraak;
-        this.klant =  klant;
-        this.medewerker = medewerker;
-    }
 
     public String getSoortAfspraak() {
         return soortAfspraak;

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ulas1.backend.exception.MankementNotFoundException;
 import ulas1.backend.exception.AutoHasNoMankementenException;
 
-
 @ControllerAdvice
 public class MankementControllerAdvice {
         @ExceptionHandler(MankementNotFoundException.class)

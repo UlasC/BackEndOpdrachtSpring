@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class OnderdeelService {
-    private OnderdeelRepository onderdeelRepository;
+    private final OnderdeelRepository onderdeelRepository;
 
     @Autowired
     public OnderdeelService(OnderdeelRepository onderdeelRepository) {

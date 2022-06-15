@@ -12,24 +12,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ulas1.backend.domain.dto.CreateAfspraakDto;
 import ulas1.backend.domain.dto.CreateAutoDto;
-import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.entity.Auto;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.entity.Medewerker;
-import ulas1.backend.exception.KlantHasNoCarException;
-import ulas1.backend.exception.KlantNotFoundException;
-import ulas1.backend.service.AfspraakService;
+import ulas1.backend.exception.KlantHasNoCarException;;
 import ulas1.backend.service.AutoService;
 import ulas1.backend.service.JwtService;
 
 import javax.sql.DataSource;
 
-import java.util.List;
-
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 
 @WebMvcTest(AutoController.class)
@@ -140,14 +133,12 @@ class AutoControllerTest {
         String model = "5 serie";
         int bsn = 11223344;
 
-        String createAfspraakDtoString = String.format("{\n" +
+        return String.format("{\n" +
                 "\"kenteken\":\"%s\",\n" +
                 "\"brandstof:\":\"%s\",\n" +
                 "\"merk:\":\"%s\",\n" +
                 "\"model:\":\"%s\",\n" +
                 "\"bsn:\":%d\n" +
                 "}", kenteken, brandstof, merk, model, bsn);
-
-        return createAfspraakDtoString;
     }
 }
