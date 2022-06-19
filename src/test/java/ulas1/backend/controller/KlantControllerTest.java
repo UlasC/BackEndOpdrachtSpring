@@ -95,14 +95,13 @@ class KlantControllerTest {
         //Assign
         int bsn = 9;
 
-        Mockito.when(mockKlantService.getKlantByBsn(anyInt())).thenThrow(new KlantNotFoundException(bsn));
+        Mockito.when(mockKlantService.getKlantByBsn(anyInt())).thenThrow(new KlantNotFoundException());
 
         //Act and assert
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/klanten/" + bsn))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(String.valueOf(bsn))));
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     private Klant getTestKlant(){

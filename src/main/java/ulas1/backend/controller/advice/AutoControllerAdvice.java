@@ -1,5 +1,6 @@
 package ulas1.backend.controller.advice;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,11 +11,11 @@ import ulas1.backend.exception.KlantHasNoCarException;
 public class AutoControllerAdvice {
     @ExceptionHandler(AutoNotFoundException.class)
     public ResponseEntity<Object> handleAutoNotFoundException(Exception ex){
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     @ExceptionHandler(KlantHasNoCarException.class)
     public ResponseEntity<Object> handleKlantHasNoCarException(Exception ex){
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

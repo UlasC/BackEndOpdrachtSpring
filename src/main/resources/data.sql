@@ -32,3 +32,5 @@ INSERT INTO public.overige_handeling(handeling, prijs)
 VALUES ('de auto door de wasstraat sturen',50.00);
 INSERT INTO public.mankement_overige_handelingen(mankementen_mankement_id, overige_handelingen_handelingsnummer)
 VALUES (2, 1);
+INSERT INTO public.identiteitskaart_foto(name, type, data, klant_bsn)
+VALUES ('identiteitskaart.pdf', 'application/pdf', lo_create(1), 123123123);

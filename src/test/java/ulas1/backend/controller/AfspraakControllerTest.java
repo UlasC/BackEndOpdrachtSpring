@@ -84,14 +84,13 @@ class AfspraakControllerTest {
         //Assign
         int bsn = 9;
 
-        Mockito.when(mockAfspraakService.getAfspraken(anyInt())).thenThrow(new KlantNotFoundException(bsn));
+        Mockito.when(mockAfspraakService.getAfspraken(anyInt())).thenThrow(new KlantNotFoundException());
 
         //Act and assert
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/afspraken/klant/" + bsn))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(String.valueOf(bsn))));
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     @Test
@@ -123,7 +122,7 @@ class AfspraakControllerTest {
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/afspraken/medewerker/" + gebruikersnaam))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(gebruikersnaam)));
     }
 

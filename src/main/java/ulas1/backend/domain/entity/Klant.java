@@ -24,6 +24,9 @@ public class Klant {
     @JsonIgnore
     private Auto auto;
 
+    @OneToMany(mappedBy = "klant")
+    private List<IdentiteitskaartFoto> identiteitskaartFotos;
+
     public String getFirstName() {
         return firstName;
     }
@@ -70,5 +73,13 @@ public class Klant {
 
     public void setAuto(Auto auto) {
         this.auto = auto;
+    }
+
+    public List<IdentiteitskaartFoto> getIdentiteitskaartFotos() {
+        return identiteitskaartFotos;
+    }
+
+    public void setIdentiteitskaartFotos(List<IdentiteitskaartFoto> identiteitskaartFotos) {
+        this.identiteitskaartFotos = identiteitskaartFotos;
     }
 }

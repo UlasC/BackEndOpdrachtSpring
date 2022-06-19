@@ -96,14 +96,15 @@ class AutoControllerTest {
         //Assign
         Auto auto = getTestAuto();
 
-        Mockito.when(mockAutoService.getAutoByKlant(anyInt())).thenThrow(new KlantHasNoCarException(auto.getKlant().getBsn()));
+        Mockito.when(mockAutoService.getAutoByKlant(anyInt())).thenThrow(new KlantHasNoCarException(auto.getKlant().getFirstName(), auto.getKlant().getLastName()));
 
         //Act and assert
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/autos/klant/" + auto.getKlant().getBsn()))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(String.valueOf(auto.getKlant().getBsn()))));
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(String.valueOf(auto.getKlant().getFirstName()))))
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(String.valueOf(auto.getKlant().getLastName()))));;
     }
 
     private Auto getTestAuto(){
@@ -112,9 +113,13 @@ class AutoControllerTest {
         String merk = "BMW";
         String model = "5 serie";
         int bsn = 11223344;
+        String firstName = "Jan";
+        String lastName = "van Steen";
 
         Klant klant = new Klant();
         klant.setBsn(bsn);
+        klant.setFirstName(firstName);
+        klant.setLastName(lastName);
 
         Auto auto = new Auto();
         auto.setKenteken(kenteken);

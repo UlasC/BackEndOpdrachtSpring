@@ -28,7 +28,7 @@ public class KlantService {
     public Klant getKlantByBsn(Integer bsn) {
         Optional<Klant> klant = klantRepository.findById(bsn);
         if(klant.isEmpty()){
-            throw new KlantNotFoundException(bsn);
+            throw new KlantNotFoundException();
         }
         return klant.get();
     }

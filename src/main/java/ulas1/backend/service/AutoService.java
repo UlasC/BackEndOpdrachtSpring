@@ -47,7 +47,7 @@ public class AutoService {
         Klant klant= klantService.getKlantByBsn(bsn);
         Optional<Auto> auto  = autoRepository.findAutoByKlant(klant);
         if(auto.isEmpty()){
-            throw new KlantHasNoCarException(bsn);
+            throw new KlantHasNoCarException(klant.getFirstName(), klant.getLastName());
         }
         return auto.get();
     }

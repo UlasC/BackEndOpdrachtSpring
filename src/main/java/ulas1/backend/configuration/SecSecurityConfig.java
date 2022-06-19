@@ -69,6 +69,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/afspraken/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers(HttpMethod.POST, "/autos").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers(HttpMethod.GET, "/autos/**").hasAnyAuthority(Medewerker.BALIEMEDEWERKER, Medewerker.MONTEUR)
+                .antMatchers("/fotos").hasAuthority(Medewerker.BALIEMEDEWERKER)
+                .antMatchers("/fotos/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers(HttpMethod.POST, "/handelingen").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers(HttpMethod.GET, "/handelingen/**").hasAnyAuthority(Medewerker.MONTEUR, Medewerker.BACKENDMEDEWERKER)
                 .antMatchers("/handelingen/**").hasAuthority(Medewerker.BACKENDMEDEWERKER)
