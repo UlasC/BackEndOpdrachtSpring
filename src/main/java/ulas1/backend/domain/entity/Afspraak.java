@@ -5,11 +5,11 @@ import ulas1.backend.domain.idClass.AfspraakId;
 import javax.persistence.*;
 
 @Entity
-@IdClass(AfspraakId.class)
+@IdClass(AfspraakId.class) //Deze tabel gebruikt een samengestelde primaire sleutel op basis van de velden in AfspraakId
 public class Afspraak {
 
     @Id
-    @Column(length = 5)
+    @Column(length = 5) //Tijd is een String in de vorm "00:00" dus deze mag niet langer zijn dan 5 tekens
     private String tijd;
     @Id
     private int dag;
@@ -21,9 +21,9 @@ public class Afspraak {
     private String soortAfspraak;
 
     @Id
-    @ManyToOne // een op veel relatie
+    @ManyToOne // Een een op veel relatie met Klant
     private Klant klant;
-    
+
     @ManyToOne
     private Medewerker medewerker;
 

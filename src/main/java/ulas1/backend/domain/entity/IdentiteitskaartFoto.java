@@ -11,7 +11,7 @@ public class IdentiteitskaartFoto {
     private int id;
     private String name;
     private String type;
-    @Lob
+    @Lob //Lob = Large OBject
     private byte[] data;
 
     @ManyToOne

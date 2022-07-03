@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ulas1.backend.domain.dto.AfspraakDto;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
 import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.entity.Klant;
@@ -31,7 +32,7 @@ class AfspraakServiceTest {
     MedewerkerService medewerkerService;
 
     @InjectMocks
-    AfspraakService sut;
+    AfspraakService sut; //sut = Subject Under Test
 
     @Test
     void createAfspraakReturnsKlantWithCorrectBsn() {
@@ -52,10 +53,10 @@ class AfspraakServiceTest {
         when(afspraakRepository.findAfsprakenByMedewerker(medewerker)).thenReturn(Optional.empty());
 
         //Act
-        Afspraak afspraak = sut.createAfspraak(createAfspraakDto);
+        AfspraakDto afspraakDto = sut.createAfspraak(createAfspraakDto);
 
         //Assert
-        assertEquals(afspraak.getKlant().getBsn(), bsn);
+        assertEquals(afspraakDto.getKlant().getBsn(), bsn);
     }
 
     @Test
@@ -77,10 +78,10 @@ class AfspraakServiceTest {
         when(afspraakRepository.findAfsprakenByMedewerker(medewerker)).thenReturn(Optional.empty());
 
         //Act
-        Afspraak afspraak = sut.createAfspraak(createAfspraakDto);
+        AfspraakDto afspraakDto = sut.createAfspraak(createAfspraakDto);
 
         //Assert
-        assertSame(afspraak.getMedewerker().getGebruikersnaam(), gebruikersnaam);
+        assertSame(afspraakDto.getMedewerkerCreatedDto().getGebruikersnaam(), gebruikersnaam);
     }
 
     @Test

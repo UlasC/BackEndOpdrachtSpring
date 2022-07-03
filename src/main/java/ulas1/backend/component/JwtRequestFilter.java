@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//In deze klasse worden uit een binnenkomende request alle authorisatiegegevens gefilterd
+// en wordt er gecheckt of deze gegevens valide zijn (d.w.z. token is niet verlopen etc.)
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;

@@ -7,9 +7,9 @@ import java.util.List;
 
 @Entity
 public class Klant {
-    @Column(length = 15)
+    @Column(length = 15) //Ik ken geen mensen wiens voornaam langer is dan 15 tekens
     private String firstName;
-    @Column(length = 25)
+    @Column(length = 25) //Achternamen zijn iets langer, getrouwde vrouwen kunnen bijvoorbeeld nog een meisjesnaam hebben
     private String lastName;
     private String adres;
 

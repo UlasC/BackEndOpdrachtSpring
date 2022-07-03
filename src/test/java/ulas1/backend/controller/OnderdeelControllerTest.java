@@ -29,6 +29,8 @@ class OnderdeelControllerTest {
     @MockBean
     OnderdeelService mockOnderdeelService;
 
+    //De jwtService en de Datasource moeten verplicht gemockt worden in alle ControllerTest-klasses,
+    // anders geeft Spring een error.
     @MockBean
     JwtService jwtService;
 

@@ -12,8 +12,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ulas1.backend.domain.dto.AfspraakDto;
 import ulas1.backend.domain.dto.CreateAfspraakDto;
-import ulas1.backend.domain.entity.Afspraak;
+import ulas1.backend.domain.dto.MedewerkerCreatedDto;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.exception.KlantNotFoundException;
@@ -37,6 +38,8 @@ class AfspraakControllerTest {
     @MockBean
     AfspraakService mockAfspraakService;
 
+    //De jwtService en de Datasource moeten verplicht gemockt worden in alle ControllerTest-klasses,
+    // anders geeft Spring een error.
     @MockBean
     JwtService jwtService;
 
@@ -47,35 +50,35 @@ class AfspraakControllerTest {
     @WithMockUser(authorities={Medewerker.BALIEMEDEWERKER})
     void createAfspraakCreatesAfspraakAndReturnsLocation() throws Exception {
         //Assign
-        Afspraak afspraak = getTestAfspraak();
+        AfspraakDto afspraakDto = getTestAfspraakDto();
 
         String createAfspraakDtoString = getTestCreateAfspraakDtoString();
 
-        Mockito.when(mockAfspraakService.createAfspraak(any(CreateAfspraakDto.class))).thenReturn(afspraak);
+        Mockito.when(mockAfspraakService.createAfspraak(any(CreateAfspraakDto.class))).thenReturn(afspraakDto);
 
         //Act and assert
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/afspraken").contentType(MediaType.APPLICATION_JSON).content(createAfspraakDtoString))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.containsString("/afspraken/" + afspraak.getKlant().getBsn())));
+                .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.containsString("/afspraken/" + afspraakDto.getKlant().getBsn())));
     }
 
     @Test
     @WithMockUser(authorities={Medewerker.BALIEMEDEWERKER})
     void getAfsprakenReturnsAfsprakenWhenBsnIsValid() throws Exception {
         //Assign
-        Afspraak afspraak = getTestAfspraak();
-        List<Afspraak> afspraken = List.of(afspraak);
+        AfspraakDto afspraakDto = getTestAfspraakDto();
+        List<AfspraakDto> afspraakDtos = List.of(afspraakDto);
 
-        Mockito.when(mockAfspraakService.getAfspraken(anyInt())).thenReturn(afspraken);
+        Mockito.when(mockAfspraakService.getAfspraken(anyInt())).thenReturn(afspraakDtos);
 
         //Act and assert
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/afspraken/klant/" + afspraak.getKlant().getBsn()))
+                .perform(MockMvcRequestBuilders.get("/afspraken/klant/" + afspraakDto.getKlant().getBsn()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].klant.bsn",is(afspraak.getKlant().getBsn())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].klant.bsn",is(afspraakDto.getKlant().getBsn())));
     }
 
     @Test
@@ -97,17 +100,17 @@ class AfspraakControllerTest {
     @WithMockUser(authorities={Medewerker.BALIEMEDEWERKER})
     void getAfsprakenReturnsAfsprakenWhenGebruikersnaamIsValid() throws Exception {
         //Assign
-        Afspraak afspraak = getTestAfspraak();
-        List<Afspraak> afspraken = List.of(afspraak);
+        AfspraakDto afspraakDto = getTestAfspraakDto();
+        List<AfspraakDto> afspraakDtos = List.of(afspraakDto);
 
-        Mockito.when(mockAfspraakService.getAfspraken(anyString())).thenReturn(afspraken);
+        Mockito.when(mockAfspraakService.getAfspraken(anyString())).thenReturn(afspraakDtos);
 
         //Act and assert
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/afspraken/medewerker/" + afspraak.getMedewerker().getGebruikersnaam()))
+                .perform(MockMvcRequestBuilders.get("/afspraken/medewerker/" + afspraakDto.getMedewerkerCreatedDto().getGebruikersnaam()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].medewerker.gebruikersnaam",is(afspraak.getMedewerker().getGebruikersnaam())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].medewerkerCreatedDto.gebruikersnaam",is(afspraakDto.getMedewerkerCreatedDto().getGebruikersnaam())));
     }
 
     @Test
@@ -129,19 +132,19 @@ class AfspraakControllerTest {
     @Test
     void getAfsprakenReturnsErrorWhenUnauthorized() throws Exception {
         //Assign
-        Afspraak afspraak = getTestAfspraak();
-        List<Afspraak> afspraken = List.of(afspraak);
+        AfspraakDto afspraakDto = getTestAfspraakDto();
+        List<AfspraakDto> afspraakDtos = List.of(afspraakDto);
 
-        Mockito.when(mockAfspraakService.getAfspraken(anyString())).thenReturn(afspraken);
+        Mockito.when(mockAfspraakService.getAfspraken(anyString())).thenReturn(afspraakDtos);
 
         //Act and assert
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/afspraken/medewerker/" + afspraak.getMedewerker().getGebruikersnaam()))
+                .perform(MockMvcRequestBuilders.get("/afspraken/medewerker/" + afspraakDto.getMedewerkerCreatedDto().getGebruikersnaam()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
-    private Afspraak getTestAfspraak(){
+    private AfspraakDto getTestAfspraakDto(){
         String tijd = "10:00";
         int dag = 1;
         int maand = 2;
@@ -153,19 +156,19 @@ class AfspraakControllerTest {
         Klant klant = new Klant();
         klant.setBsn(bsn);
 
-        Medewerker medewerker = new Medewerker();
-        medewerker.setGebruikersnaam(gebruikersnaam);
+        MedewerkerCreatedDto medewerkerCreatedDto = new MedewerkerCreatedDto();
+        medewerkerCreatedDto.setGebruikersnaam(gebruikersnaam);
 
-        Afspraak afspraak = new Afspraak();
-        afspraak.setTijd(tijd);
-        afspraak.setDag(dag);
-        afspraak.setMaand(maand);
-        afspraak.setJaar(jaar);
-        afspraak.setSoortAfspraak(soortAfspraak);
-        afspraak.setKlant(klant);
-        afspraak.setMedewerker(medewerker);
+        AfspraakDto afspraakDto = new AfspraakDto();
+        afspraakDto.setTijd(tijd);
+        afspraakDto.setDag(dag);
+        afspraakDto.setMaand(maand);
+        afspraakDto.setJaar(jaar);
+        afspraakDto.setSoortAfspraak(soortAfspraak);
+        afspraakDto.setKlant(klant);
+        afspraakDto.setMedewerkerCreatedDto(medewerkerCreatedDto);
 
-        return afspraak;
+        return afspraakDto;
     }
 
     private String getTestCreateAfspraakDtoString(){

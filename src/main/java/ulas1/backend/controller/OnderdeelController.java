@@ -9,8 +9,7 @@ import ulas1.backend.service.OnderdeelService;
 import javax.validation.Valid;
 import java.net.URI;
 
-
-@RestController // Dit is de controller: spring object
+@RestController // Dit is de controller: de eerste spring laag
 @RequestMapping("/onderdelen") // de path van de localHost
 public class OnderdeelController {
     @Autowired
@@ -23,7 +22,7 @@ public class OnderdeelController {
 
 
     @PostMapping
-    public ResponseEntity<Onderdeel> addOnderdeel(@RequestBody Onderdeel onderdeel){
+    public ResponseEntity<Onderdeel> addOnderdeel(@Valid @RequestBody Onderdeel onderdeel){
         onderdeelService.addOnderdeel(onderdeel);
 
         final URI location = URI.create("/onderdelen/" + onderdeel.getArtikelnummer());
@@ -37,6 +36,11 @@ public class OnderdeelController {
         return ResponseEntity.ok(onderdeel);
     }
 
+    //Met deze methode kan de voorraad van een onderdeel worden aangepast.
+    //De parameter "verschil" werkt relatief: je geeft niet de nieuwe voorraad mee,
+    // maar je geeft aan hoeveel onderdelen erbij zijn gekomen of eraf zijn gegaan.
+    //Als onderdelen zijn gebruikt is het verschil negatief, als onderdelen zijn
+    // bijbesteld is het verschil positief.
     @PutMapping("{artikelnummer}/voorraad")
     public ResponseEntity<Onderdeel> updateVoorraad(@PathVariable int artikelnummer, @Valid @RequestBody int verschil){
         Onderdeel onderdeel = onderdeelService.updateVoorraad(artikelnummer, verschil);

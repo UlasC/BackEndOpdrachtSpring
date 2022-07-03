@@ -2,6 +2,7 @@ package ulas1.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ulas1.backend.domain.dto.AfspraakDto;
 import ulas1.backend.domain.entity.Afspraak;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.domain.entity.Klant;
@@ -28,7 +29,7 @@ public class AfspraakService {
         this.medewerkerService = medewerkerService;
     }
 
-    public Afspraak createAfspraak(CreateAfspraakDto createAfspraakDto){
+    public AfspraakDto createAfspraak(CreateAfspraakDto createAfspraakDto){
         Afspraak afspraak = new Afspraak();
         afspraak.setDag(createAfspraakDto.getDag());
         afspraak.setMaand(createAfspraakDto.getMaand());
@@ -41,43 +42,44 @@ public class AfspraakService {
 
         Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(createAfspraakDto.getGebruikersnaam());
         afspraak.setMedewerker(medewerker);
-        
+
+        //Als de klant of de medewerker al een afspraak heeft staan, gooi een exception
         if(hasAfspraak(klant,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
             throw new KlantHeeftAlAfspraakException(klant.getFirstName(), klant.getLastName());
         }
         if(hasAfspraak(medewerker,afspraak.getTijd(), afspraak.getDag(), afspraak.getMaand(), afspraak.getJaar())){
             throw new MedewerkerHeeftAlAfspraakException(medewerker.getGebruikersnaam());
         }
-        
+
         afspraakRepository.save(afspraak);
-        return afspraak;
+        return AfspraakDto.from(afspraak);
     }
 
-    public List<Afspraak> getAfspraken(int bsn){
+    public List<AfspraakDto> getAfspraken(int bsn){
         Klant klant= klantService.getKlantByBsn(bsn);
         Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByKlant(klant);
         if(afspraken.isEmpty()){
             return new ArrayList<>();
         }else{
-            return afspraken.get();
+            return AfspraakDto.from(afspraken.get());
         }
     }
 
-    public List<Afspraak> getAfspraken(String gebruikersnaam){
+    public List<AfspraakDto> getAfspraken(String gebruikersnaam){
         Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(gebruikersnaam);
         Optional<List<Afspraak>> afspraken  = afspraakRepository.findAfsprakenByMedewerker(medewerker);
         if(afspraken.isEmpty()){
             return new ArrayList<>();
         }else{
-            return afspraken.get();
+            return AfspraakDto.from(afspraken.get());
         }
     }
 
     public boolean hasAfspraak(Klant klant, String tijd, int dag, int maand, int jaar){
-        List<Afspraak> afspraken = getAfspraken(klant.getBsn());
-        if(afspraken.size() > 0){
-            for(Afspraak afspraak: afspraken){
-                if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
+        List<AfspraakDto> afspraakDtos = getAfspraken(klant.getBsn());
+        if(afspraakDtos.size() > 0){
+            for(AfspraakDto afspraakDto: afspraakDtos){
+                if(afspraakDto.getTijd().equals(tijd) && afspraakDto.getDag() == dag && afspraakDto.getMaand() == maand && afspraakDto.getJaar() == jaar){
                     return true;
                 }
             }
@@ -86,10 +88,10 @@ public class AfspraakService {
     }
 
     public boolean hasAfspraak(Medewerker medewerker, String tijd, int dag, int maand, int jaar){
-        List<Afspraak> afspraken = getAfspraken(medewerker.getGebruikersnaam());
-        if(afspraken.size() > 0){
-            for(Afspraak afspraak: afspraken){
-                if(afspraak.getTijd().equals(tijd) && afspraak.getDag() == dag && afspraak.getMaand() == maand && afspraak.getJaar() == jaar){
+        List<AfspraakDto> afspraakDtos = getAfspraken(medewerker.getGebruikersnaam());
+        if(afspraakDtos.size() > 0){
+            for(AfspraakDto afspraakDto: afspraakDtos){
+                if(afspraakDto.getTijd().equals(tijd) && afspraakDto.getDag() == dag && afspraakDto.getMaand() == maand && afspraakDto.getJaar() == jaar){
                     return true;
                 }
             }

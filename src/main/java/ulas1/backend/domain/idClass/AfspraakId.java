@@ -2,11 +2,22 @@ package ulas1.backend.domain.idClass;
 
 import java.io.Serializable;
 
+//Deze klasse beschrijft welke velden samen de primaire sleutel
+// van de afspraken-tabel omvatten
 public class AfspraakId implements Serializable {
+
     private int jaar;
+
     private int dag;
+
     private int maand;
+
+    //De naam van de variabele moet hetzelfde zijn als de naam van de variabele in de afspraken-klasse.
+    //Het type van de variabele daarentegen moet hetzelfde zijn als het type dat uiteindelijk in de kolom
+    // in de afspraken-tabel gebruikt wordt.
+    //Zowel "private Klant klant" als "private int bsn" werken hier dus niet.
     private int klant;
+
     private String tijd;
 
     public int getJaar() {

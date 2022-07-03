@@ -2,15 +2,13 @@ package ulas1.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Medewerker {
 
+    //Statische strings om te voorkomen dat ik een spelfout maak bij het toekennen van rollen
     public static final String BALIEMEDEWERKER = "BALIEMEDEWERKER";
     public static final String MONTEUR = "MONTEUR";
     public static final String BACKENDMEDEWERKER = "BACKENDMEDEWERKER";

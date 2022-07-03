@@ -6,7 +6,7 @@ import ulas1.backend.domain.entity.OverigeHandeling;
 import ulas1.backend.domain.dto.CreateHandelingDto;
 import ulas1.backend.repository.OverigeHandelingRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class OverigeHandelingService {
@@ -26,7 +26,10 @@ public class OverigeHandelingService {
         return overigeHandeling;
     }
 
-    public Optional<OverigeHandeling> getOverigeHandelingByHandelingsnummer(Integer handelingsnummer) {
-        return overigeHandelingRepository.findById(handelingsnummer);
+    //Deze methode wordt aangeroepen wanneer een mankement wordt verwijderd vanuit een andere service
+    public void deleteOverigeHandelingenList(List<OverigeHandeling> overigeHandelingen){
+        for(OverigeHandeling overigeHandeling: overigeHandelingen){
+            overigeHandelingRepository.delete(overigeHandeling);
+        }
     }
 }

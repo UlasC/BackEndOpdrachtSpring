@@ -6,6 +6,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import ulas1.backend.exception.KlantHeeftGeenFotosException;
 
@@ -42,5 +43,10 @@ public class IdentiteitskaartFotoControllerAdvice {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<Object> handleMissingServletRequestParameterException(Exception ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Je hebt niet genoeg paramters meegegeven om deze opdracht uit te kunnen voeren.");
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<Object> handleMultipartException(Exception ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Geef alsjeblieft een foto mee als parameter.");
     }
 }

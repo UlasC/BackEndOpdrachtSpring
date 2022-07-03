@@ -1,5 +1,7 @@
 package ulas1.backend.domain.dto;
 
+import ulas1.backend.domain.entity.Medewerker;
+
 public class MedewerkerCreatedDto {
     private String gebruikersnaam;
     private String role;
@@ -27,5 +29,14 @@ public class MedewerkerCreatedDto {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public static MedewerkerCreatedDto from(Medewerker medewerker){
+        MedewerkerCreatedDto medewerkerCreatedDto = new MedewerkerCreatedDto();
+        medewerkerCreatedDto.setGebruikersnaam(medewerker.getGebruikersnaam());
+        medewerkerCreatedDto.setRole(medewerker.getRole());
+        medewerkerCreatedDto.setEnabled(medewerker.isEnabled());
+
+        return medewerkerCreatedDto;
     }
 }

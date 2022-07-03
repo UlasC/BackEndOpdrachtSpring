@@ -44,6 +44,14 @@ public class FotoUploadedDto {
         this.type = type;
     }
 
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
     public static FotoUploadedDto from(IdentiteitskaartFoto identiteitskaartFoto){
         FotoUploadedDto fotoUploadedDto = new FotoUploadedDto();
         fotoUploadedDto.setId(identiteitskaartFoto.getId());
@@ -53,13 +61,5 @@ public class FotoUploadedDto {
         fotoUploadedDto.setSize(identiteitskaartFoto.getData().length);
 
         return fotoUploadedDto;
-    }
-
-    public long getSize() {
-        return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
     }
 }

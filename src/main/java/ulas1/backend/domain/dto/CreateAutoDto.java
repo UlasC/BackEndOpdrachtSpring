@@ -8,8 +8,6 @@ public class CreateAutoDto {
     private String brandstof;
     private int bsn;
 
-
-
     public String getKenteken() {
         return kenteken;
     }

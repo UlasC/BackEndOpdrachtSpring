@@ -6,8 +6,8 @@ import java.util.List;
 @Entity
 public class Mankement {
 
-    private String betalingstatus;
-    private String reparatieFase;// akkoord of geen akkoord
+    private String betalingstatus; //"Betaald" of "Niet betaald"
+    private String reparatieFase;// "Inspectie lopende", "Inspectie klaar", "Offerte reparatie niet akkoord", "Offerte reparatie akkoord", "In reparatie" of "Gerepareerd"
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int mankementId;

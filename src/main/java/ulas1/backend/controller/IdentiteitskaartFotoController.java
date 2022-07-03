@@ -27,7 +27,7 @@ public class IdentiteitskaartFotoController {
     }
 
     @PostMapping
-    public ResponseEntity<FotoUploadedDto> upload(@Valid @RequestParam("foto") MultipartFile foto, @RequestParam("bsn") int bsn) throws IOException {
+    public ResponseEntity<FotoUploadedDto> upload(@Valid @RequestParam("foto") MultipartFile foto, @Valid @RequestParam("bsn") int bsn) throws IOException {
         FotoUploadedDto fotoUploadedDto = identiteitskaartFotoService.upload(foto, bsn);
 
         final URI location = URI.create("/fotos/" + fotoUploadedDto.getId());

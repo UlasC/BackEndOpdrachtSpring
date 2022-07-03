@@ -33,7 +33,7 @@ public class MedewerkerController {
     @GetMapping("{gebruikersnaam}")
     public ResponseEntity<MedewerkerCreatedDto> getGebruiker(@PathVariable String gebruikersnaam){
         Medewerker medewerker = medewerkerService.getMedewerkerByGebruikersnaam(gebruikersnaam);
-        MedewerkerCreatedDto medewerkerCreatedDto = medewerkerService.getDTOfromMedewerker(medewerker);
+        MedewerkerCreatedDto medewerkerCreatedDto = MedewerkerCreatedDto.from(medewerker);
         return ResponseEntity.ok(medewerkerCreatedDto);
     }
 

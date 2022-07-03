@@ -1,6 +1,5 @@
 package ulas1.backend.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 
-@RestController // Dit is de controller: spring object
+@RestController // Dit is de controller: de eerste spring laag
 @RequestMapping("/autos")
 public class AutoController {
 
@@ -25,7 +24,7 @@ public class AutoController {
     private AutoService autoService;
 
     @PostMapping
-    public ResponseEntity<Auto> createAuto(@RequestBody CreateAutoDto createAutoDto) {
+    public ResponseEntity<Auto> createAuto(@Valid @RequestBody CreateAutoDto createAutoDto) {
         Auto auto = autoService.createAuto(createAutoDto);
 
         final URI location = URI.create("/autos/" + auto.getKenteken());

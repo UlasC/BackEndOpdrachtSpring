@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ulas1.backend.domain.dto.CreateKlantDto;
 import ulas1.backend.domain.entity.Klant;
 import ulas1.backend.domain.entity.Medewerker;
 import ulas1.backend.exception.KlantNotFoundException;
@@ -34,6 +35,8 @@ class KlantControllerTest {
     @MockBean
     KlantService mockKlantService;
 
+    //De jwtService en de Datasource moeten verplicht gemockt worden in alle ControllerTest-klasses,
+    // anders geeft Spring een error.
     @MockBean
     JwtService jwtService;
 
@@ -47,7 +50,7 @@ class KlantControllerTest {
         Klant klant = getTestKlant();
         String klantString = getTestKlantString();
 
-        Mockito.when(mockKlantService.createKlant(any(Klant.class))).thenReturn(klant);
+        Mockito.when(mockKlantService.createKlant(any(CreateKlantDto.class))).thenReturn(klant);
 
         //Act and assert
         this.mockMvc
@@ -64,7 +67,7 @@ class KlantControllerTest {
         Klant klant = getTestKlant();
         String klantString = getTestKlantString();
 
-        Mockito.when(mockKlantService.createKlant(any(Klant.class))).thenReturn(klant);
+        Mockito.when(mockKlantService.createKlant(any(CreateKlantDto.class))).thenReturn(klant);
 
         //Act and assert
         this.mockMvc

@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Auto {
     @Id
-    @Column(length = 10)
+    @Column(length = 10) //Zelfs buitenlandse kentekens zouden niet langer moeten zijn dan 10 tekens
     private String kenteken;
     private String model;
     private String merk;

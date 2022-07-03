@@ -25,13 +25,13 @@ class MedewerkerServiceTest {
     MedewerkerService sut;
 
     @Test
-    //testing to make sure updateWachtwoord returns null and not the password
+        //testing to make sure updateWachtwoord returns null and not the password
     void updateWachtwoordReturnsNull() throws NoSuchMethodException {
         //Assign
         Class med_serv_class = sut.getClass();
         Method updateWachtwoord = med_serv_class.getDeclaredMethod("updateWachtwoord", String.class, String.class);
 
-        //Assert
+        //Act and assert
         assertSame(updateWachtwoord.getReturnType(), Void.TYPE);
     }
 

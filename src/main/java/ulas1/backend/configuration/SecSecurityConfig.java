@@ -47,6 +47,9 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    //Er zijn 2 configure methodes
+    //De eerste vertelt Spring welke queries hij moet uitvoeren
+    // om alle gebruikers en hun authorities te krijgen
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -57,6 +60,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("select gebruikersnaam, role from medewerker where gebruikersnaam=?");
     }
 
+    //De tweede configure methode vertelt Spring welke authorities
+    // nodig zijn om requests naar bepaalde endpoints te mogen sturen
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -64,11 +69,12 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll() //Iedereen mag proberen in te loggen
                 .antMatchers("/afspraken").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/afspraken/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
-                .antMatchers(HttpMethod.POST, "/autos").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers(HttpMethod.GET, "/autos/**").hasAnyAuthority(Medewerker.BALIEMEDEWERKER, Medewerker.MONTEUR)
+                .antMatchers( "/autos").hasAuthority(Medewerker.BALIEMEDEWERKER)
+                .antMatchers("/autos/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/fotos").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/fotos/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers(HttpMethod.POST, "/handelingen").hasAuthority(Medewerker.BACKENDMEDEWERKER)
@@ -77,9 +83,10 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/klanten").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/klanten/**").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/mankementen/{mankementId}/bon").hasAuthority(Medewerker.BALIEMEDEWERKER)
+                .antMatchers("/mankementen/{mankementId}/betalingsstatus").hasAuthority(Medewerker.BALIEMEDEWERKER)
                 .antMatchers("/mankementen").hasAuthority(Medewerker.MONTEUR)
                 .antMatchers("/mankementen/**").hasAuthority(Medewerker.MONTEUR)
-                .antMatchers("/medewerkers/{gebruikersnaam}/wachtwoord").access("@wachtwoordUpdateCheck.controleerGebruikersnaam(authentication,#gebruikersnaam)")
+                .antMatchers("/medewerkers/{gebruikersnaam}/wachtwoord").access("@wachtwoordUpdateCheck.controleerGebruikersnaam(authentication,#gebruikersnaam)") //Mensen mogen alleen hun eigen wachtwoord updaten
                 .antMatchers("/medewerkers").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers("/medewerkers/**").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers(HttpMethod.GET, "/onderdelen/**").hasAnyAuthority(Medewerker.MONTEUR, Medewerker.BACKENDMEDEWERKER)
@@ -87,7 +94,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/onderdelen").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .antMatchers("/onderdelen/**").hasAuthority(Medewerker.BACKENDMEDEWERKER)
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests().anyRequest().authenticated() //Zou overbodig moeten zijn, maar de regel staat hier voor het geval ik hierboven een pad vergeten ben
                 .and()
                 .addFilterBefore(new JwtRequestFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();

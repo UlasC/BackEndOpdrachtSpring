@@ -14,7 +14,6 @@ import ulas1.backend.exception.KlantNotFoundException;
 import ulas1.backend.repository.IdentiteitskaartFotoRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

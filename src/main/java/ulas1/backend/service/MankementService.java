@@ -3,8 +3,8 @@ package ulas1.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ulas1.backend.domain.dto.CreateHandelingDto;
-import ulas1.backend.domain.dto.CreateMankementDto;
 import ulas1.backend.domain.entity.*;
+import ulas1.backend.exception.AutoHasNoMankementenException;
 import ulas1.backend.exception.MankementNotFoundException;
 import ulas1.backend.repository.MankementRepository;
 
@@ -30,13 +30,12 @@ public class MankementService {
         this.onderdeelService = onderdeelService;
     }
 
-    public Mankement createMankement(CreateMankementDto createMankementDto){
+    public Mankement createMankement(String kenteken){
         Mankement mankement = new Mankement();
-        mankement.setMankementId(createMankementDto.getMankementId());
-        mankement.setBetalingstatus(createMankementDto.getBetalingstatus());
-        mankement.setReparatieFase(createMankementDto.getReparatieFase());
+        mankement.setBetalingstatus("Niet betaald");
+        mankement.setReparatieFase("Inspectie lopende");
 
-        Auto auto = autoService.getAutoByKenteken(createMankementDto.getKenteken());
+        Auto auto = autoService.getAutoByKenteken(kenteken);
         mankement.setAuto(auto);
 
         mankement.setOnderdelen(new ArrayList<>());
@@ -84,18 +83,6 @@ public class MankementService {
         return mankement;
     }
 
-    public Mankement deleteOverigeHandelingen(int mankementId){
-        Mankement mankement = getMankementByMankementId(mankementId);
-        mankement.setOverigeHandelingen(new ArrayList<>());
-        mankementRepository.save(mankement);
-        return mankement;
-    }
-
-    public void deleteMankement(int mankementId){
-        Mankement mankement = getMankementByMankementId(mankementId);
-        mankementRepository.delete(mankement);
-    }
-
     public Mankement getMankementByMankementId(int mankementId) {
         Optional<Mankement> mankement = mankementRepository.findById(mankementId);
         if(mankement.isEmpty()){
@@ -104,16 +91,23 @@ public class MankementService {
         return mankement.get();
     }
 
-    public Optional<List<Mankement>> getMankementenByAuto(String kenteken){
+    public List<Mankement> getMankementenByAuto(String kenteken){
         Auto auto = autoService.getAutoByKenteken(kenteken);
-        return mankementRepository.findMankementenByAuto(auto);
+        Optional<List<Mankement>> mankementen =  mankementRepository.findMankementenByAuto(auto);
+        if (mankementen.isEmpty()) {
+            throw new AutoHasNoMankementenException(kenteken);
+        }
+        return mankementen.get();
     }
 
+    //Dit is persoonlijk mijn favoriete methode.
+    //Hij genereert een bon op basis van alle handelingen en onderdelen
+    // die geregistreerd staan bij een mankement.
     public String getBon(int mankementId){
         Mankement mankement = getMankementByMankementId(mankementId);
         StringBuilder bon = new StringBuilder();
         bon.append("Bon\n");
-        addKlantNameToBon(bon, mankement);
+        addKlantNameToBon(bon, mankement); //Pass by reference, dus het resultaat hoeft niet apart opgevangen te worden en terug opgeslagen te worden
         bon.append("\n");
         double totaalprijsMetBTW = addHandelingenAndPrijsToBon(bon, mankement);
         bon.append("\n");
@@ -138,7 +132,7 @@ public class MankementService {
             kosten += handeling.getPrijs();
             bon.append(handeling.getHandeling()).append(" €").append(formatPrijs(handeling.getPrijs())).append("\n");
         }
-        for(OverigeHandeling handeling : overigehandelingen){
+        for(OverigeHandeling handeling : overigehandelingen){ //Voor de klant is er geen onderscheid tussen bestaande handelingen en overige handelingen, dus dat staat ook niet op de bon
             kosten += handeling.getPrijs();
             bon.append(handeling.getHandeling()).append(" €").append(formatPrijs(handeling.getPrijs())).append("\n");
         }
@@ -159,7 +153,7 @@ public class MankementService {
 
     public void addBTWandTotaalprijsToBon(StringBuilder bon, double totaalprijsMetBTW){
         double btwPercentage = 21.0;
-        double totaalprijsZonderBTW = totaalprijsMetBTW / (100 + btwPercentage) * 100;
+        double totaalprijsZonderBTW = totaalprijsMetBTW / (100 + btwPercentage) * 100; //In Nederland zijn prijzen normaliter inclusief BTW, dus die wordt er hier vanaf gehaald
         double BTW = totaalprijsMetBTW / (100 + btwPercentage) * btwPercentage;
         bon.append("Totaal (exclusief btw): €").append(formatPrijs(totaalprijsZonderBTW)).append("\n");
         bon.append("BTW: €").append(formatPrijs(BTW)).append("\n\n");
@@ -177,6 +171,33 @@ public class MankementService {
         return prijsFormatted;
     }
 
+    public Mankement updateBetalingstatus(int mankementId, String betalingstatus){
+        Mankement mankement = getMankementByMankementId(mankementId);
+        mankement.setBetalingstatus(betalingstatus);
+        mankementRepository.save(mankement);
+        return mankement;
+    }
+
+    public Mankement updateReparatiefase(int mankementId, String reparatiefase){
+        Mankement mankement = getMankementByMankementId(mankementId);
+        mankement.setReparatieFase(reparatiefase);
+        mankementRepository.save(mankement);
+        return mankement;
+    }
+
+    public Mankement deleteOverigeHandelingen(int mankementId){
+        Mankement mankement = getMankementByMankementId(mankementId);
+        List<OverigeHandeling> overigeHandelingen = mankement.getOverigeHandelingen();
+        mankement.setOverigeHandelingen(new ArrayList<>());
+        overigeHandelingService.deleteOverigeHandelingenList(overigeHandelingen);
+        mankementRepository.save(mankement);
+        return mankement;
+    }
+
+    public void deleteMankement(int mankementId){
+        Mankement mankement = deleteOverigeHandelingen(mankementId); //Verwijder ook meteen de gekoppelde overige handelingen
+        mankementRepository.delete(mankement);
+    }
 }
 
 

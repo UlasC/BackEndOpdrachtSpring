@@ -32,6 +32,6 @@ public class LogInController {
         String token = jwtService.generateToken(ud, System.currentTimeMillis());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .body(token);
+                .body(token); //Als het inloggen geslaagd is, geef dan een token terug om toekomstige requests mee te valideren
     }
 }
